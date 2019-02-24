@@ -1,0 +1,1958 @@
+[
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "addressesToCheck",
+          "type": "address[]"
+        }
+      ],
+      "name": "getApprovedAddressesOfList",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool[]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x02ffc0b0"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "masterCopyCountdown",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x0e7c0f80"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "auctionStarts",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x1006a41f"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "updateMasterCopy",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x2cef4dac"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "int256"
+        }
+      ],
+      "name": "atleastZero",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function",
+      "signature": "0x30690468"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "buyerBalances",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x37775807"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_ethUSDOracle",
+          "type": "address"
+        }
+      ],
+      "name": "initiateEthUsdOracleUpdate",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x403fbf54"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "uint256"
+        }
+      ],
+      "name": "safeToAdd",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function",
+      "signature": "0x4e30a66c"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "auctioneer",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x5ec2c7bf"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "token",
+          "type": "address[]"
+        },
+        {
+          "name": "approved",
+          "type": "bool"
+        }
+      ],
+      "name": "updateApprovalOfToken",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x65b0d711"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "approvedTokens",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x6d1ea3fa"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "thresholdNewTokenPair",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x6e6260fa"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "newMasterCopy",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x6ea68360"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "ethUSDOracle",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x706eb3ab"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "uint256"
+        }
+      ],
+      "name": "add",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function",
+      "signature": "0x771602f7"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_auctioneer",
+          "type": "address"
+        }
+      ],
+      "name": "updateAuctioneer",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x796a8076"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "uint256"
+        }
+      ],
+      "name": "min",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function",
+      "signature": "0x7ae2b5c7"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "ethToken",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x7bf1a627"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "frtToken",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x8261eb1b"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "claimedAmounts",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x9fec8e96"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "oracleInterfaceCountdown",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xa48cef4a"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "masterCopy",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xa619486e"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "clearingTimes",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xb04c0239"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "sellVolumesNext",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xb3c2083f"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "sellVolumesCurrent",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xb64c4905"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "uint256"
+        }
+      ],
+      "name": "sub",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function",
+      "signature": "0xb67d77c5"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "buyVolumes",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xb8beafd6"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "sellerBalances",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xc1a21bf3"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "balances",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xc23f001f"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "uint256"
+        }
+      ],
+      "name": "mul",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function",
+      "signature": "0xc8a4ac9c"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "uint256"
+        }
+      ],
+      "name": "safeToMul",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function",
+      "signature": "0xcb10fa76"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "newProposalEthUSDOracle",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xcd04ccfc"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "owlToken",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xcd94a2a4"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "a",
+          "type": "uint256"
+        },
+        {
+          "name": "b",
+          "type": "uint256"
+        }
+      ],
+      "name": "safeToSub",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function",
+      "signature": "0xe31c71c4"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "closingPrices",
+      "outputs": [
+        {
+          "name": "num",
+          "type": "uint256"
+        },
+        {
+          "name": "den",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xebcc0de1"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "thresholdNewAuction",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xee93114c"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "updateEthUSDOracle",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0xf4279d1f"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_masterCopy",
+          "type": "address"
+        }
+      ],
+      "name": "startMasterCopyCountdown",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0xf625ee28"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "extraTokens",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xf79710fd"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "latestAuctionIndices",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xfac7abe3"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "NewDeposit",
+      "type": "event",
+      "signature": "0x2cb77763bc1e8490c1a904905c4d74b4269919aca114464f4bb4d911e60de364"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "NewWithdrawal",
+      "type": "event",
+      "signature": "0x6e2e05fb6a732995d6952d9158ca6b75f11cc6bf5a4af943aa1eb475a249440b"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "sellToken",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "buyToken",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "auctionIndex",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "NewSellOrder",
+      "type": "event",
+      "signature": "0x3681d6f6ad159bac260c32828859f6df545bbf841c6e70787bcf0acbc390512a"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "sellToken",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "buyToken",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "auctionIndex",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "NewBuyOrder",
+      "type": "event",
+      "signature": "0xf1751a362067564d5feb9ed26f1898bb14c17e1254e3724d454bc2ae80195c25"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "sellToken",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "buyToken",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "auctionIndex",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "frtsIssued",
+          "type": "uint256"
+        }
+      ],
+      "name": "NewSellerFundsClaim",
+      "type": "event",
+      "signature": "0xa3ac9b53d029621ef95693b5f9b1d0b0da75029fe8530389271be02715e24c13"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "sellToken",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "buyToken",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "auctionIndex",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "frtsIssued",
+          "type": "uint256"
+        }
+      ],
+      "name": "NewBuyerFundsClaim",
+      "type": "event",
+      "signature": "0x4d1c39fd1a9c74f88b9f90c7b439b7e5dc6f26b6ff280fd497fdec5c538aaf52"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "sellToken",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "buyToken",
+          "type": "address"
+        }
+      ],
+      "name": "NewTokenPair",
+      "type": "event",
+      "signature": "0x6f4b2adffa0c3e90e47fdcd9d2c36f48b57eb3271dce519997271073dac17be9"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "sellToken",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "buyToken",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "sellVolume",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "buyVolume",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "name": "auctionIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "AuctionCleared",
+      "type": "event",
+      "signature": "0xb5806f8610464e96807c2b147620cc721c65309647f16cfccdf9fb7bd95152ac"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "sellToken",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "buyToken",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "auctionIndex",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "auctionStart",
+          "type": "uint256"
+        }
+      ],
+      "name": "AuctionStartScheduled",
+      "type": "event",
+      "signature": "0x20017e7b1ef8e7882103f55ff346ca3135c4afe13dff1da2f01b482aece766a5"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "primaryToken",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "secondarToken",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "auctionIndex",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "fee",
+          "type": "uint256"
+        }
+      ],
+      "name": "Fee",
+      "type": "event",
+      "signature": "0x30c4d3fe752442ffa2415fd4e6398cb9e378bab963f042ce30ef4363b6ad93b6"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "priceOracleInterface",
+          "type": "address"
+        }
+      ],
+      "name": "NewOracleProposal",
+      "type": "event",
+      "signature": "0x3f174cfd713408ca6e4620d1efcc241b23fc39aa7d4694bd98610d3384dc001c"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "approved",
+          "type": "bool"
+        }
+      ],
+      "name": "Approval",
+      "type": "event",
+      "signature": "0xc091bf3abd3a42f670f8ad1a6ad5b849311210403e1d85d6ac31f43114d5ca6e"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "newMasterCopy",
+          "type": "address"
+        }
+      ],
+      "name": "NewMasterCopyProposal",
+      "type": "event",
+      "signature": "0x36dceb79f427eda3edba9ac3c1d4db7a6e4d0b8637d97320847d93fa8e2f7a04"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "sellToken",
+          "type": "address"
+        },
+        {
+          "name": "buyToken",
+          "type": "address"
+        },
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "depositAndSell",
+      "outputs": [
+        {
+          "name": "newBal",
+          "type": "uint256"
+        },
+        {
+          "name": "auctionIndex",
+          "type": "uint256"
+        },
+        {
+          "name": "newSellerBal",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x657a37ad"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "sellToken",
+          "type": "address"
+        },
+        {
+          "name": "buyToken",
+          "type": "address"
+        },
+        {
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "name": "auctionIndex",
+          "type": "uint256"
+        },
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "claimAndWithdraw",
+      "outputs": [
+        {
+          "name": "returned",
+          "type": "uint256"
+        },
+        {
+          "name": "frtsIssued",
+          "type": "uint256"
+        },
+        {
+          "name": "newBal",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x06d58f2a"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "auctionSellTokens",
+          "type": "address[]"
+        },
+        {
+          "name": "auctionBuyTokens",
+          "type": "address[]"
+        },
+        {
+          "name": "auctionIndices",
+          "type": "uint256[]"
+        },
+        {
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "claimTokensFromSeveralAuctionsAsSeller",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256[]"
+        },
+        {
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x7895dd21"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "auctionSellTokens",
+          "type": "address[]"
+        },
+        {
+          "name": "auctionBuyTokens",
+          "type": "address[]"
+        },
+        {
+          "name": "auctionIndices",
+          "type": "uint256[]"
+        },
+        {
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "claimTokensFromSeveralAuctionsAsBuyer",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256[]"
+        },
+        {
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0xd3cc8d1c"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "auctionSellTokens",
+          "type": "address[]"
+        },
+        {
+          "name": "auctionBuyTokens",
+          "type": "address[]"
+        },
+        {
+          "name": "auctionIndices",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "claimAndWithdrawTokensFromSeveralAuctionsAsSeller",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256[]"
+        },
+        {
+          "name": "frtsIssued",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x82a57b43"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "auctionSellTokens",
+          "type": "address[]"
+        },
+        {
+          "name": "auctionBuyTokens",
+          "type": "address[]"
+        },
+        {
+          "name": "auctionIndices",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "claimAndWithdrawTokensFromSeveralAuctionsAsBuyer",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256[]"
+        },
+        {
+          "name": "frtsIssued",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x0c57cfba"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getMasterCopy",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x04e80e90"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_frtToken",
+          "type": "address"
+        },
+        {
+          "name": "_owlToken",
+          "type": "address"
+        },
+        {
+          "name": "_auctioneer",
+          "type": "address"
+        },
+        {
+          "name": "_ethToken",
+          "type": "address"
+        },
+        {
+          "name": "_ethUSDOracle",
+          "type": "address"
+        },
+        {
+          "name": "_thresholdNewTokenPair",
+          "type": "uint256"
+        },
+        {
+          "name": "_thresholdNewAuction",
+          "type": "uint256"
+        }
+      ],
+      "name": "setupDutchExchange",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0xacb10351"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_thresholdNewTokenPair",
+          "type": "uint256"
+        }
+      ],
+      "name": "updateThresholdNewTokenPair",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0xe1c95bb9"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_thresholdNewAuction",
+          "type": "uint256"
+        }
+      ],
+      "name": "updateThresholdNewAuction",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0xc6af43f9"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "token1",
+          "type": "address"
+        },
+        {
+          "name": "token2",
+          "type": "address"
+        },
+        {
+          "name": "token1Funding",
+          "type": "uint256"
+        },
+        {
+          "name": "token2Funding",
+          "type": "uint256"
+        },
+        {
+          "name": "initialClosingPriceNum",
+          "type": "uint256"
+        },
+        {
+          "name": "initialClosingPriceDen",
+          "type": "uint256"
+        }
+      ],
+      "name": "addTokenPair",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0xe9f8cd70"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "tokenAddress",
+          "type": "address"
+        },
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "deposit",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x47e7ef24"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "tokenAddress",
+          "type": "address"
+        },
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdraw",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0xf3fef3a3"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "sellToken",
+          "type": "address"
+        },
+        {
+          "name": "buyToken",
+          "type": "address"
+        },
+        {
+          "name": "auctionIndex",
+          "type": "uint256"
+        },
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "postSellOrder",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x59f96ae5"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "sellToken",
+          "type": "address"
+        },
+        {
+          "name": "buyToken",
+          "type": "address"
+        },
+        {
+          "name": "auctionIndex",
+          "type": "uint256"
+        },
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "postBuyOrder",
+      "outputs": [
+        {
+          "name": "newBuyerBal",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x5e7f22c2"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "sellToken",
+          "type": "address"
+        },
+        {
+          "name": "buyToken",
+          "type": "address"
+        },
+        {
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "name": "auctionIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "claimSellerFunds",
+      "outputs": [
+        {
+          "name": "returned",
+          "type": "uint256"
+        },
+        {
+          "name": "frtsIssued",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x65054e55"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "sellToken",
+          "type": "address"
+        },
+        {
+          "name": "buyToken",
+          "type": "address"
+        },
+        {
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "name": "auctionIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "claimBuyerFunds",
+      "outputs": [
+        {
+          "name": "returned",
+          "type": "uint256"
+        },
+        {
+          "name": "frtsIssued",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0xb0293850"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "sellToken",
+          "type": "address"
+        },
+        {
+          "name": "buyToken",
+          "type": "address"
+        },
+        {
+          "name": "auctionIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "closeTheoreticalClosedAuction",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function",
+      "signature": "0x821b98f3"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "sellToken",
+          "type": "address"
+        },
+        {
+          "name": "buyToken",
+          "type": "address"
+        },
+        {
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "name": "auctionIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "getUnclaimedBuyerFunds",
+      "outputs": [
+        {
+          "name": "unclaimedBuyerFunds",
+          "type": "uint256"
+        },
+        {
+          "name": "num",
+          "type": "uint256"
+        },
+        {
+          "name": "den",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xdf6af7d1"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "getFeeRatio",
+      "outputs": [
+        {
+          "name": "num",
+          "type": "uint256"
+        },
+        {
+          "name": "den",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xedd0b5cb"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "token1",
+          "type": "address"
+        },
+        {
+          "name": "token2",
+          "type": "address"
+        },
+        {
+          "name": "auctionIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "getPriceInPastAuction",
+      "outputs": [
+        {
+          "name": "num",
+          "type": "uint256"
+        },
+        {
+          "name": "den",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x4bf8e7a2"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "token",
+          "type": "address"
+        }
+      ],
+      "name": "getPriceOfTokenInLastAuction",
+      "outputs": [
+        {
+          "name": "num",
+          "type": "uint256"
+        },
+        {
+          "name": "den",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xf41d97fc"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "sellToken",
+          "type": "address"
+        },
+        {
+          "name": "buyToken",
+          "type": "address"
+        },
+        {
+          "name": "auctionIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "getCurrentAuctionPrice",
+      "outputs": [
+        {
+          "name": "num",
+          "type": "uint256"
+        },
+        {
+          "name": "den",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xfdab1b7b"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "token1",
+          "type": "address"
+        },
+        {
+          "name": "token2",
+          "type": "address"
+        }
+      ],
+      "name": "getTokenOrder",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        },
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "pure",
+      "type": "function",
+      "signature": "0x00599e65"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "token1",
+          "type": "address"
+        },
+        {
+          "name": "token2",
+          "type": "address"
+        }
+      ],
+      "name": "getAuctionStart",
+      "outputs": [
+        {
+          "name": "auctionStart",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0xdae595e5"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "token1",
+          "type": "address"
+        },
+        {
+          "name": "token2",
+          "type": "address"
+        }
+      ],
+      "name": "getAuctionIndex",
+      "outputs": [
+        {
+          "name": "auctionIndex",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x14584a9d"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "token1",
+          "type": "address"
+        },
+        {
+          "name": "token2",
+          "type": "address"
+        },
+        {
+          "name": "auctionIndex",
+          "type": "uint256"
+        }
+      ],
+      "name": "getClearingTime",
+      "outputs": [
+        {
+          "name": "time",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function",
+      "signature": "0x7420a32f"
+    }
+  ]
