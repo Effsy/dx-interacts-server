@@ -6,7 +6,7 @@
 
 Clone dxInteracts [contracts](https://github.com/Effsy/dx-interacts)
 
-Compile contracts
+Compile the contracts
 
 `> truffle compile`
  
@@ -14,7 +14,7 @@ Run your local ganache instance
 
 `> ganache-cli`
 
-Deploy contracts
+Deploy the contracts
 
 `> truffle migrate`
 
@@ -33,3 +33,10 @@ Note: In the future, this will read from the provider
 Run the server
 
 `> node server.js`
+
+
+#### Send a test transaction
+
+Go to 127.0.0.1:3000/testSend
+
+Check the events in the console output
