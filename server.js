@@ -15,19 +15,19 @@ var myAddress = '0x30abac1cec520be49ac535f81860368f78077785'; //CHANGE
 var toAddress = '0x5ffaa00c67230ef9424604e2e4abc58848d614cf';
 var privateKey = '0x5409626185b407dfc268568ef4de76df3dd412a5c78baf45354554ab326541b7'; //CHANGE
 
-const dutchXContractAddress = "0x4e69969D9270fF55fc7c5043B074d4e45F795587"; // proxy contract address //CHANGE
+const dutchXContractAddress = "0xB3e96188da9B4d928093aB5640F47085cda4ec67"; // proxy contract address //CHANGE
 const dutchXContractABI = require('./dutchXabi.json'); // logic contract ABI
 const dutchXContract = new web3js.eth.Contract(dutchXContractABI, dutchXContractAddress);
 
-const owlContractAddress = '0xa7d1c04faf998f9161fc9f800a99a809b84cfc9d'; // proxy contract address //CHANGE
+const owlContractAddress = '0x3C82f155a229365A04643d43F216A906a4A3537a'; // proxy contract address //CHANGE
 const owlContractABI = require('./owlTokenabi.json');
 const owlContract = new web3js.eth.Contract(owlContractABI, owlContractAddress);
 
-const gnoContractAddress = '0xAd44F75F5D249090FACeB072C64744aC09D6C0d2'; //CHANGE
+const gnoContractAddress = '0xaD6279a07619b3B377240bf7Ef4bb5D45a7e6612'; //CHANGE
 const gnoContractABI = require('./gnoTokenabi.json');
 const gnoContract = new web3js.eth.Contract(gnoContractABI, gnoContractAddress);
 
-const wethContractAddress = '0x16db1A3dC1514a3df4da053e44dcA37a90C1f904'; //CHANGE
+const wethContractAddress = '0x255E92C885293E719041B9e5A8633F603C09b79A'; //CHANGE
 const wethContractABI = require('./etherTokenabi.json');
 const wethContract = new web3js.eth.Contract(wethContractABI, wethContractAddress);
 
@@ -54,16 +54,33 @@ app.get('/testSend', function (req, res) {
 });
 
 
-// app.get('/testTransfer', () => {
-//     wethContract.methods.transfer.send({to: toAddress, value: 100000000000000000})
-//         .on('transactionHash', (hash) => {
-//             console.log("Deposit successful! Transaction hash: " + hash);
-//         })
-//         .on('error', (error) => {
-//             console.log("error");
-//             console.log(error);
-//         });
-// });
+app.get('/testTransfer', () => {
+    wethContract.methods.transfer(toAddress, 1000000000).send({from: myAddress})
+        .on('transactionHash', (hash) => {
+            console.log("Deposit successful! Transaction hash: " + hash);
+        })
+        .on('error', (error) => {
+            console.log("error");
+            console.log(error);
+        }).catch(err => {
+            console.log(err)
+    });
+});
+
+
+app.get('/testTransferFrom', () => {
+    wethContract.methods.transferFrom().send({from: myAddress, to: toAddress, value: 10000000000})
+        .on('transactionHash', (hash) => {
+            console.log("Deposit successful! Transaction hash: " + hash);
+        })
+        .on('error', (error) => {
+            console.log("error");
+            console.log(error);
+        }).catch(err => {
+        console.log(err)
+    });
+});
+
 
 app.listen(3000, () => {
     console.log('dxInteracts Server listening on port 3000!')
