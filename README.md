@@ -6,13 +6,17 @@
 
 Clone dxInteracts [contracts](https://github.com/Effsy/dx-interacts)
 
-Compile the contracts
+Install the dependencies
 
-`> truffle compile`
- 
+`> npm install`
+
 Run your local ganache instance
 
 `> ganache-cli -m "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat"`
+
+Compile the contracts
+
+`> truffle compile`
 
 Deploy the contracts
 
@@ -22,7 +26,7 @@ Deploy the contracts
 
 Clone this repo
 
-Install dependencies
+Install the dependencies
 
 `> npm install`
 
