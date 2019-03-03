@@ -11,6 +11,7 @@ const app = express();
 
 // Local Provider
 web3js = new web3(new web3.providers.WebsocketProvider("http://127.0.0.1:8545"));
+
 var myAddress = '0x627306090abab3a6e1400e9345bc60c78a8bef57'; //CHANGE
 var privateKey = '0xc87509a1c067bbde78beb793e6fa76530b6382a4c0241e5e4a9ec0a0f44dc0d3'; //CHANGE
 
@@ -31,59 +32,137 @@ const wethContractABI = require('./etherTokenabi.json');
 const wethContract = new web3js.eth.Contract(wethContractABI, wethContractAddress);
 
 
-
-app.get('/testSend',function(req,res){
+app.get('/testSend', function (req, res) {
 
     // postSellOrder(address sellToken, address buyToken, uint auctionIndex, uint amount)
 
     // dutchXContract.methods.postSellOrder(owlContractAddress, gnoContractAddress, 0, 10).send({from: myAddress}, () => {
     //     console.log("sent");
     // });
-    
+
     // TOOO: Integrate into send:
     // web3.utils.toWei('0.1', 'ether')
 
     wethContract.methods.deposit().send({from: myAddress, value: 100000000000000000})
-    .on('transactionHash', (hash)=> {
-        console.log("Deposit successful! Transaction hash: " + hash);
-    })
-    .on('error', (error)=> {
-        console.log("error");
-        console.log(error);
-    });
-    
+        .on('transactionHash', (hash) => {
+            console.log("Deposit successful! Transaction hash: " + hash);
+        })
+        .on('error', (error) => {
+            console.log("error");
+            console.log(error);
+        });
 });
+
+
+app.get('/testApprove', () => {
+    wethContract.methods.approve(myAddress, 1000000000).send({from: myAddress})
+        .on('transactionHash', (hash) => {
+            console.log("Approval successful! Transaction hash: " + hash);
+        })
+        .on('error', (error) => {
+            console.log("error");
+            console.log(error);
+        }).catch(err => {
+        console.log(err)
+    });
+});
+
+app.get('/postSellOrder', () => {
+    var auctionIndex = dutchXContract.methods.getAuctionIndex(owlContract, gnoContract);
+    console.log("AuctionINDEX" + auctionIndex);
+
+    dutchXContract.methods.postSellOrder(owlContractAddress, gnoContractAddress, 0, 1).send({from: myAddress})
+        .on('transactionHash', (hash) => {
+            console.log("Deposit successful! Transaction hash: " + hash);
+        })
+        .on('error', (error) => {
+            console.log("error");
+            console.log(error);
+        }).catch(err => {
+        console.log(err)
+
+    });
+});
+
+app.get('/testTransfer', () => {
+    wethContract.methods.transfer(toAddress, 1000000000).send({from: myAddress})
+        .on('transactionHash', (hash) => {
+            console.log("Deposit successful! Transaction hash: " + hash);
+        })
+        .on('error', (error) => {
+            console.log("error");
+            console.log(error);
+        }).catch(err => {
+        console.log(err)
+    });
+});
+
+
+
+app.get('/testTransferFrom', () => {
+    wethContract.methods.transferFrom(myAddress, toAddress, 1000000000000).send({from: myAddress})
+        .on('transactionHash', (hash) => {
+            console.log("Deposit successful! Transaction hash: " + hash);
+        })
+        .on('error', (error) => {
+            console.log("error");
+            console.log(error);
+        }).catch(err => {
+        console.log(err)
+    });
+});
+
 
 app.listen(3000, () => {
     console.log('dxInteracts Server listening on port 3000!')
-    
+
     // -------------
     // DUTCHX EVENTS
     // -------------
-    
+
+    dutchXContract.events.NewDeposit({}, (err, res) => {
+        console.log("Filtering for new deposit");
+        if (res) {
+            console.log("New deposit added successfully")
+            console.log(res)
+        } else {
+            console.log(err)
+        }
+    });
+
+    dutchXContract.events.AuctionCleared({}, (err, res) => {
+        console.log("Filtering for cleared auction");
+        if (res) {
+            console.log("Action Cleared successfully")
+            console.log(res)
+        } else {
+            console.log(err)
+        }
+
+    });
+
     // Subscribe to NewSellOrder event
     dutchXContract.events.NewSellOrder({}, (err, res) => {
         console.log("Sell Order event received");
         if (err) {
             console.log("error");
             console.log(err);
-        }
-        else {
+        } else {
             console.log("SellOrder Succesfull - Event Received");
             console.log(res);
         }
-        
+
         // Do something
     });
 
     // Subscribe to all events on DutchX Contract
     dutchXContract.events.allEvents({
-        fromBlock: 0}, (err, res) => {
+        fromBlock: 0
+    }, (err, res) => {
         if (err) {
             console.log("error");
             console.log(err);
-        }
-        else {
+        } else {
             console.log("New DutchX Event");
             console.log(res);
         }
@@ -93,58 +172,87 @@ app.listen(3000, () => {
     // ERC20 TOKEN EVENTS
     // ------------------
 
+    // Subscribe to Transfer
+    wethContract.events.Transfer({}, (err, res) => {
+        console.log("Transfer received");
+        if (err) {
+            console.log("error");
+            console.log(err);
+        } else {
+            console.log("WETH Transfer Succesfull - Event received");
+            console.log(res);
+        }
+
+        // Do something
+    });
+
+    // Subscribe to Approval event
+    wethContract.events.Approval({}, (err, res) => {
+        console.log("Deposit received");
+        if (err) {
+            console.log("error");
+            console.log(err);
+        } else {
+            console.log("WETH Approval Succesfull - Event received");
+            console.log(res);
+        }
+
+        // Do something
+    });
+
     // Subscribe to Deposit event
     wethContract.events.Deposit({}, (err, res) => {
         console.log("Deposit received");
         if (err) {
             console.log("error");
             console.log(err);
-        }
-        else {
+        } else {
             console.log("WETH Deposit Succesfull - Event received");
             console.log(res);
         }
-        
+
         // Do something
     });
 
     // Subscribe to all events on WETH contract
     wethContract.events.allEvents({
-        fromBlock: 0}, (err, res) => {
+        fromBlock: 0
+    }, (err, res) => {
         if (err) {
             console.log("error");
             console.log(err);
-        }
-        else {
+        } else {
             console.log("New WETH Event");
             console.log(res);
         }
     });
 
+
 });
+
 
 /**
  * EVENTS
- * 
+ *
  * -- Events to listen for on ERC20 tokens:
  * Transfer(address indexed from, address indexed to, uint tokens)
  * Approval(address indexed tokenOwner, address indexed spender, uint tokens)
- * 
- * 
+ *
+ *
  * -- Events to listen for on DutchX:
  * NewDeposit(address indexed token, uint amount)
  * NewSellOrder(
-        address indexed sellToken,
-        address indexed buyToken,
-        address indexed user,
-        uint auctionIndex,
-        uint amount
-    )
+ address indexed sellToken,
+ address indexed buyToken,
+ address indexed user,
+ uint auctionIndex,
+ uint amount
+ )
  * AuctionCleared(
-        address indexed sellToken,
-        address indexed buyToken,
-        uint sellVolume,
-        uint buyVolume,
-        uint indexed auctionIndex
-    )
+ address indexed sellToken,
+ address indexed buyToken,
+ uint sellVolume,
+ uint buyVolume,
+ uint indexed auctionIndex
+ )
  */
