@@ -11,22 +11,22 @@ const app = express();
 
 // Local Provider
 web3js = new web3(new web3.providers.WebsocketProvider("http://127.0.0.1:8545"));
-var myAddress = '0x70f888ea4f0109dfb98e276254ceceb59e0699b8'; //CHANGE
-var privateKey = '0xee4d2b46365bc664c93a8727d11624d6829e9ea6fc7d97f9c1b568e2daf6672c'; //CHANGE
+var myAddress = '0x627306090abab3a6e1400e9345bc60c78a8bef57'; //CHANGE
+var privateKey = '0xc87509a1c067bbde78beb793e6fa76530b6382a4c0241e5e4a9ec0a0f44dc0d3'; //CHANGE
 
-const dutchXContractAddress = "0x993fbA3b584A1a238B39c3bC12B1ddCaEBC2ccE7"; // proxy contract address //CHANGE
+const dutchXContractAddress = "0x2a504B5e7eC284ACa5b6f49716611237239F0b97"; // proxy contract address //CHANGE
 const dutchXContractABI = require('./dutchXabi.json'); // logic contract ABI
 const dutchXContract = new web3js.eth.Contract(dutchXContractABI, dutchXContractAddress);
 
-const owlContractAddress = '0x49401Fa2084B4887915b6Df750DA1FcdEc5fc923'; // proxy contract address //CHANGE
+const owlContractAddress = '0xdDA6327139485221633A1FcD65f4aC932E60A2e1'; // proxy contract address //CHANGE
 // const owlContractABI = require('./.json');
 // const owlContract = new web3js.eth.Contract(owlContractABI, owlContractAddress);
 
-const gnoContractAddress = '0xa121b65C59Bcf43Ef819BE9a4aa0746F9Ee09952'; //CHANGE
+const gnoContractAddress = '0x75c35C980C0d37ef46DF04d31A140b65503c0eEd'; //CHANGE
 // const gnoContractABI = require('./.json');
 // const gnoContract = new web3js.eth.Contract(gnoContractABI, gnoContractAddress);
 
-const wethContractAddress = '0xC6Fe835430C0cD907c113A634c394Fdeb21640B3'; //CHANGE
+const wethContractAddress = '0xf204a4Ef082f5c04bB89F7D5E6568B796096735a'; //CHANGE
 const wethContractABI = require('./etherTokenabi.json');
 const wethContract = new web3js.eth.Contract(wethContractABI, wethContractAddress);
 
