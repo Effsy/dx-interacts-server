@@ -11,23 +11,23 @@ const app = express();
 
 // Local Provider
 web3js = new web3(new web3.providers.WebsocketProvider("http://127.0.0.1:8545"));
-var myAddress = '0x90f8bf6a479f320ead074411a4b0e7944ea8c9c1'; //CHANGE
-var toAddress = '0xffcf8fdee72ac11b5c542428b35eef5769c409f0';
-var privateKey = '0x4f3edf983ac636a65a842ce7c78d9aa706d3b113bce9c46f30d7d21715b23b1d'; //CHANGE
 
-const dutchXContractAddress = "0xD86C8F0327494034F60e25074420BcCF560D5610"; // proxy contract address //CHANGE
+var myAddress = '0x627306090abab3a6e1400e9345bc60c78a8bef57'; //CHANGE
+var privateKey = '0xc87509a1c067bbde78beb793e6fa76530b6382a4c0241e5e4a9ec0a0f44dc0d3'; //CHANGE
+
+const dutchXContractAddress = "0x2a504B5e7eC284ACa5b6f49716611237239F0b97"; // proxy contract address //CHANGE
 const dutchXContractABI = require('./dutchXabi.json'); // logic contract ABI
 const dutchXContract = new web3js.eth.Contract(dutchXContractABI, dutchXContractAddress);
 
-const owlContractAddress = '0xA57B8a5584442B467b4689F1144D269d096A3daF'; // proxy contract address //CHANGE
-const owlContractABI = require('./owlTokenabi.json');
-const owlContract = new web3js.eth.Contract(owlContractABI, owlContractAddress);
+const owlContractAddress = '0xdDA6327139485221633A1FcD65f4aC932E60A2e1'; // proxy contract address //CHANGE
+// const owlContractABI = require('./.json');
+// const owlContract = new web3js.eth.Contract(owlContractABI, owlContractAddress);
 
-const gnoContractAddress = '0x67B5656d60a809915323Bf2C40A8bEF15A152e3e'; //CHANGE
-const gnoContractABI = require('./gnoTokenabi.json');
-const gnoContract = new web3js.eth.Contract(gnoContractABI, gnoContractAddress);
+const gnoContractAddress = '0x75c35C980C0d37ef46DF04d31A140b65503c0eEd'; //CHANGE
+// const gnoContractABI = require('./.json');
+// const gnoContract = new web3js.eth.Contract(gnoContractABI, gnoContractAddress);
 
-const wethContractAddress = '0x9b1f7F645351AF3631a656421eD2e40f2802E6c0'; //CHANGE
+const wethContractAddress = '0xf204a4Ef082f5c04bB89F7D5E6568B796096735a'; //CHANGE
 const wethContractABI = require('./etherTokenabi.json');
 const wethContract = new web3js.eth.Contract(wethContractABI, wethContractAddress);
 
