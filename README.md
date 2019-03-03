@@ -12,7 +12,7 @@ Compile the contracts
  
 Run your local ganache instance
 
-`> ganache-cli`
+`> ganache-cli -m "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat"`
 
 Deploy the contracts
 
