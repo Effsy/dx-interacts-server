@@ -13,6 +13,7 @@ const app = express();
 web3js = new web3(new web3.providers.WebsocketProvider("http://127.0.0.1:8545"));
 
 var myAddress = '0x627306090abab3a6e1400e9345bc60c78a8bef57'; //CHANGE
+var toAddress = '0xffcf8fdee72ac11b5c542428b35eef5769c409f0';
 var privateKey = '0xc87509a1c067bbde78beb793e6fa76530b6382a4c0241e5e4a9ec0a0f44dc0d3'; //CHANGE
 
 const dutchXContractAddress = "0x2a504B5e7eC284ACa5b6f49716611237239F0b97"; // proxy contract address //CHANGE
