@@ -53,6 +53,6 @@ public class App {
         var balance = dx.balances(wethAddress, accounts.get(0)).send();
         System.out.println("weth balance in dx of acc[0]: " + balance.toString());
 
-        
+
     }
 }
