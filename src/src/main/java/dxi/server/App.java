@@ -13,7 +13,6 @@ import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.ClientTransactionManager;
 import org.web3j.tx.gas.DefaultGasProvider;
-
 import org.web3j.tx.gas.StaticGasProvider;
 
 
