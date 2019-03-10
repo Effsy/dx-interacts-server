@@ -6,6 +6,7 @@ package dxi.server;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.web3j.protocol.Web3j;
@@ -19,29 +20,21 @@ import org.web3j.tx.gas.StaticGasProvider;
 
 
 public class App {
-    public String getGreeting() {
-        return "Hello world.";
-    }
-    
+    private static final Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
     private static final StaticGasProvider gasProvider = new StaticGasProvider(BigInteger.ZERO, DefaultGasProvider.GAS_LIMIT);
     
-    public static void main(String[] args) throws Exception {
-        System.out.println(new App().getGreeting());
-        
-        
-        Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
+    public List<String> getAccounts() throws IOException {
+        return web3.ethAccounts().send().getAccounts();
+    }
 
-        web3.ethAccounts().flowable().subscribe(x -> {
-            for(var e : x.getAccounts()) {
-                System.out.println(e);
-            }
-        });
+    public static void main(String[] args) throws Exception {
         
+    
+
         var accounts = web3.ethAccounts().send().getAccounts();
         var ctm1 = new ClientTransactionManager(web3, accounts.get(0));
         var ctm2 = new ClientTransactionManager(web3, accounts.get(1));
-        
-        // Contract2 contract = Contract2.deploy(web3, ctm1, gasProvider).send();
+
 
         String dutchExchangeAddress = "0x13274fe19c0178208bcbee397af8167a7be27f6f";
         String dxInteractsAddress = "0x2a504b5e7ec284aca5b6f49716611237239f0b97";
