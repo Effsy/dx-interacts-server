@@ -23,15 +23,14 @@ public class App {
     private static final Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
     private static final StaticGasProvider gasProvider = new StaticGasProvider(BigInteger.ZERO, DefaultGasProvider.GAS_LIMIT);
     
-    public List<String> getAccounts() throws IOException {
+    public static List<String> getAccounts() throws IOException {
         return web3.ethAccounts().send().getAccounts();
     }
 
     public static void main(String[] args) throws Exception {
         
-    
-
-        var accounts = web3.ethAccounts().send().getAccounts();
+        // var accounts = web3.ethAccounts().send().getAccounts();
+        var accounts = getAccounts();
         var ctm1 = new ClientTransactionManager(web3, accounts.get(0));
         var ctm2 = new ClientTransactionManager(web3, accounts.get(1));
 
@@ -42,10 +41,15 @@ public class App {
 
         DutchExchange dx = new DutchExchange(dutchExchangeAddress, web3, ctm1, gasProvider);
         DxInteracts dxi = new DxInteracts(dxInteractsAddress, web3, ctm1, gasProvider);
+        EtherToken weth = new EtherToken(wethAddress, web3, ctm1, gasProvider);
 
-        var balance = dx.balances(wethAddress, accounts.get(0)).send();
+        var balance = dx.balances(wethAddress, dxi.getContractAddress()).send();
         System.out.println("weth balance in dx of acc[0]: " + balance.toString());
-
-
+        
+        BigInteger weiValue = BigInteger.valueOf((long) 1e18/1000000000);
+        var res = dxi.depositEther(weiValue).send();
+        
+        balance = dx.balances(wethAddress, dxi.getContractAddress()).send();
+        System.out.println("weth balance in dx of acc[0]: " + balance.toString());
     }
 }
