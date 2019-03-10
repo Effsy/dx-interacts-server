@@ -58,8 +58,6 @@ public class App {
         var startingGNO = toWei(50L);
 
         // Transfering initial supply of GNO to dxi
-        System.out.println(gno.isValid());
-        System.out.println(gno.balanceOf(accounts.get(0)).send());
         gno.transfer(dxi.getContractAddress(), startingGNO).send();
         // Deposit GNO into the DutchExchange
         dxi.depositToken(gnoAddress, startingGNO).send();
@@ -104,6 +102,6 @@ public class App {
         var token2Funding = BigInteger.valueOf(0L);
         var initialClosingPriceNum = BigInteger.valueOf(2L);
         var initialClosingPriceDen = BigInteger.valueOf(1L);
-        // dxi.addTokenPair(wethAddress, gnoAddress, token1Funding, token2Funding, initialClosingPriceNum, initialClosingPriceDen).send();
+        dxi.addTokenPair(wethAddress, gnoAddress, token1Funding, token2Funding, initialClosingPriceNum, initialClosingPriceDen).send();
     }
 }

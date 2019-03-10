@@ -233,6 +233,7 @@ public class DutchExchange extends Contract {
     static {
         _addresses = new HashMap<String, String>();
         _addresses.put("1552240702094", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
+        _addresses.put("1552242838677", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
     }
 
     @Deprecated

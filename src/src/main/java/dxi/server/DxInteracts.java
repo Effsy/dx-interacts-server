@@ -52,6 +52,7 @@ public class DxInteracts extends Contract {
     static {
         _addresses = new HashMap<String, String>();
         _addresses.put("1552240702094", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552242838677", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
     }
 
     @Deprecated
