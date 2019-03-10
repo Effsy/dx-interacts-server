@@ -80,6 +80,11 @@ public class App {
             System.out.println("new token pair");
             System.out.println("buy token: " + e.buyToken + ", sell token: " + e.sellToken);
             System.out.println(e.sellToken.equals(wethAddress) + " " + e.buyToken.equals(gnoAddress));
+            
+            // Post WETH sell order on auction
+            var auctionIndex = dx.getAuctionIndex(wethAddress, gnoAddress).send();
+            var sellOrderAmount = BigInteger.valueOf(10000L);
+            dxi.postSellOrder(wethAddress, gnoAddress, auctionIndex, sellOrderAmount).send();
         });
         
         dx.newSellOrderEventFlowable(startBlock, endBlock).subscribe(e -> {
@@ -94,10 +99,5 @@ public class App {
         var initialClosingPriceNum = BigInteger.valueOf(2L);
         var initialClosingPriceDen = BigInteger.valueOf(1L);
         dxi.addTokenPair(wethAddress, gnoAddress, token1Funding, token2Funding, initialClosingPriceNum, initialClosingPriceDen).send();
-
-        // Post WETH sell order on auction
-        var auctionIndex = dx.getAuctionIndex(wethAddress, gnoAddress).send();
-        var sellOrderAmount = BigInteger.valueOf(10000L);
-        dxi.postSellOrder(wethAddress, gnoAddress, auctionIndex, sellOrderAmount).send();
     }
 }
