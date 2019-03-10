@@ -24,9 +24,9 @@ public class App {
         return web3.ethAccounts().send().getAccounts();
     }
 
-    private static BigInteger toWei(Long l) {
-        var ethValue = BigInteger.valueOf(l).multiply(BigInteger.valueOf(10).pow(18));
-        return ethValue;
+    private static BigInteger toWei(Long ethValue) {
+        var weiValue = BigInteger.valueOf(ethValue).multiply(BigInteger.valueOf(10).pow(18));
+        return weiValue;
     }
 
     public static void main(String[] args) throws Exception {
