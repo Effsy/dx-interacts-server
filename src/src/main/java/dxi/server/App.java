@@ -5,6 +5,7 @@ package dxi.server;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
 
 import org.web3j.protocol.Web3j;
@@ -30,17 +31,21 @@ public class App {
     }
 
     public static void main(String[] args) throws Exception {
-        
         var accounts = getAccounts();
         var ctm1 = new ClientTransactionManager(web3, accounts.get(0));
         // var ctm2 = new ClientTransactionManager(web3, accounts.get(1));
-        
 
         String dutchExchangeAddress = "0x13274fe19c0178208bcbee397af8167a7be27f6f";
         String dxInteractsAddress = "0x2a504b5e7ec284aca5b6f49716611237239f0b97";
         String wethAddress = "0x345ca3e014aaf5dca488057592ee47305d9b3e10";
         String gnoAddress = "0x8f0483125fcb9aaaefa9209d8e9d7b9c8b9fb90f";
-        
+
+        HashMap<String, String> contractName = new HashMap<>() {{
+            put(dutchExchangeAddress, "DutchExchange");
+            put(dxInteractsAddress, "DxInteracts");
+            put(wethAddress, "Weth");
+            put(gnoAddress, "gno");
+        }};
 
         // to call functions with different accounts, choose a different ClientTransactionManager
         DutchExchange dx = new DutchExchange(dutchExchangeAddress, web3, ctm1, gasProvider);
@@ -53,33 +58,21 @@ public class App {
         // 50e18 GNO tokens
         var startingGNO = toWei(50L);
 
-        // Deposit Ether into the DutchExchange as WETH
-        var prevWethBalance = dx.balances(wethAddress, dxi.getContractAddress()).send();
-        dxi.depositEther(startingETH).send();
-        var postWethBalance = dx.balances(wethAddress, dxi.getContractAddress()).send();
-        
         // Transfering initial supply of GNO to dxi
         gno.transfer(dxi.getContractAddress(), startingGNO).send();
-        
         // Deposit GNO into the DutchExchange
-        var prevGnoBalance = dx.balances(gnoAddress, dxi.getContractAddress()).send();
         dxi.depositToken(gnoAddress, startingGNO).send();
-        var postGnoBalance = dx.balances(gnoAddress, dxi.getContractAddress()).send();
-        
-        // TODO: use flowables to track change in balance in the DutchExchange
-        System.out.println("weth balance of dxi in dx: " + prevWethBalance);
-        System.out.println("weth balance of dxi in dx: " + postWethBalance);
-        System.out.println("gno balance of dxi in dx: " + prevGnoBalance);
-        System.out.println("gno balance of dxi in dx: " + postGnoBalance);
-        
+        // Deposit 20 Ether into the DutchExchange as WETH (dxi converts it for you)
+        dxi.depositEther(startingETH).send();
         
         var startBlock = DefaultBlockParameter.valueOf("earliest");
         var endBlock = DefaultBlockParameter.valueOf("latest");
         
         dx.newTokenPairEventFlowable(startBlock, endBlock).subscribe(e -> {
-            System.out.println("new token pair");
-            System.out.println("buy token: " + e.buyToken + ", sell token: " + e.sellToken);
-            System.out.println(e.sellToken.equals(wethAddress) + " " + e.buyToken.equals(gnoAddress));
+            System.out.println();
+            System.out.print("New Token Pair. ");
+            System.out.print("buy token: " + contractName.get(e.buyToken) + ", sell token: " + contractName.get(e.sellToken));
+            System.out.println();
             
             // Post WETH sell order on auction
             var auctionIndex = dx.getAuctionIndex(wethAddress, gnoAddress).send();
@@ -88,9 +81,21 @@ public class App {
         });
         
         dx.newSellOrderEventFlowable(startBlock, endBlock).subscribe(e -> {
-            System.out.println("new sell order");
-            System.out.println("buy token: " + e.buyToken + ", sell token: " + e.sellToken + ", amount: " + e.amount);
-            System.out.println(e.sellToken.equals(wethAddress) + " " + e.buyToken.equals(gnoAddress));
+            System.out.println();
+            System.out.print("New Sell Order. ");
+            System.out.print("buy token: " + contractName.get(e.buyToken) + ", sell token: " + contractName.get(e.sellToken) + ", amount: " + e.amount);
+            System.out.println();
+        });
+
+        // This prints out all dutchX deposits. Suitable for dev environment
+        dx.newDepositEventFlowable(startBlock, endBlock).subscribe(e -> {
+            var tx = web3.ethGetTransactionByHash(e.log.getTransactionHash()).send();
+            var dtx = tx.getTransaction().get();
+            String _from = dtx.getFrom();
+
+            System.out.println();
+            System.out.print("DutchExchange deposit. ");
+            System.out.println("token: " + contractName.get(e.token) + ", amount: " + e.amount);
         });
         
         // Add token pair WETH <-> GNO on DutchExchange
