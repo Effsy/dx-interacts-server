@@ -34,16 +34,16 @@ public class App {
         var ctm1 = new ClientTransactionManager(web3, accounts.get(0));
         // var ctm2 = new ClientTransactionManager(web3, accounts.get(1));
 
-        String dutchExchangeAddress = "0x13274fe19c0178208bcbee397af8167a7be27f6f";
-        String dxInteractsAddress = "0x2a504b5e7ec284aca5b6f49716611237239f0b97";
-        String wethAddress = "0x345ca3e014aaf5dca488057592ee47305d9b3e10";
-        String gnoAddress = "0x8f0483125fcb9aaaefa9209d8e9d7b9c8b9fb90f";
+        String dutchExchangeAddress = "0x2a504B5e7eC284ACa5b6f49716611237239F0b97";
+        String dxInteractsAddress = "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c";
+        String wethAddress = "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a";
+        String gnoAddress = "0x2C2B9C9a4a25e24B174f26114e8926a9f2128FE4";
 
         HashMap<String, String> contractName = new HashMap<>() {{
-            put(dutchExchangeAddress, "DutchExchange");
-            put(dxInteractsAddress, "DxInteracts");
-            put(wethAddress, "Weth");
-            put(gnoAddress, "gno");
+            put(dutchExchangeAddress.toUpperCase(), "DutchExchange");
+            put(dxInteractsAddress.toUpperCase(), "DxInteracts");
+            put(wethAddress.toUpperCase(), "Weth");
+            put(gnoAddress.toUpperCase(), "gno");
         }};
 
         // to call functions with different accounts, choose a different ClientTransactionManager
@@ -58,6 +58,8 @@ public class App {
         var startingGNO = toWei(50L);
 
         // Transfering initial supply of GNO to dxi
+        System.out.println(gno.isValid());
+        System.out.println(gno.balanceOf(accounts.get(0)).send());
         gno.transfer(dxi.getContractAddress(), startingGNO).send();
         // Deposit GNO into the DutchExchange
         dxi.depositToken(gnoAddress, startingGNO).send();
@@ -70,7 +72,7 @@ public class App {
         dx.newTokenPairEventFlowable(startBlock, endBlock).subscribe(e -> {
             System.out.println();
             System.out.print("New Token Pair. ");
-            System.out.print("buy token: " + contractName.get(e.buyToken) + ", sell token: " + contractName.get(e.sellToken));
+            System.out.print("buy token: " + contractName.get(e.buyToken.toUpperCase()) + ", sell token: " + contractName.get(e.sellToken.toUpperCase()));
             System.out.println();
             
             // Post WETH sell order on auction
@@ -82,7 +84,7 @@ public class App {
         dx.newSellOrderEventFlowable(startBlock, endBlock).subscribe(e -> {
             System.out.println();
             System.out.print("New Sell Order. ");
-            System.out.print("buy token: " + contractName.get(e.buyToken) + ", sell token: " + contractName.get(e.sellToken) + ", amount: " + e.amount);
+            System.out.print("buy token: " + contractName.get(e.buyToken.toUpperCase()) + ", sell token: " + contractName.get(e.sellToken.toUpperCase()) + ", amount: " + e.amount);
             System.out.println();
         });
 
@@ -94,7 +96,7 @@ public class App {
 
             System.out.println();
             System.out.print("DutchExchange deposit. ");
-            System.out.println("token: " + contractName.get(e.token) + ", amount: " + e.amount);
+            System.out.println("token: " + contractName.get(e.token.toUpperCase()) + ", amount: " + e.amount);
         });
         
         // Add token pair WETH <-> GNO on DutchExchange
@@ -102,6 +104,6 @@ public class App {
         var token2Funding = BigInteger.valueOf(0L);
         var initialClosingPriceNum = BigInteger.valueOf(2L);
         var initialClosingPriceDen = BigInteger.valueOf(1L);
-        dxi.addTokenPair(wethAddress, gnoAddress, token1Funding, token2Funding, initialClosingPriceNum, initialClosingPriceDen).send();
+        // dxi.addTokenPair(wethAddress, gnoAddress, token1Funding, token2Funding, initialClosingPriceNum, initialClosingPriceDen).send();
     }
 }
