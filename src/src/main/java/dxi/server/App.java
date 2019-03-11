@@ -5,11 +5,19 @@ package dxi.server;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.Web3jService;
 import org.web3j.protocol.core.DefaultBlockParameter;
+import org.web3j.protocol.core.Request;
+import org.web3j.protocol.core.Response;
+import org.web3j.protocol.core.methods.response.EthBlock;
+import org.web3j.protocol.core.methods.response.EthGetBlockTransactionCountByNumber;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.ClientTransactionManager;
 import org.web3j.tx.gas.DefaultGasProvider;
@@ -25,8 +33,13 @@ public class App {
     }
 
     private static BigInteger toWei(Long ethValue) {
-        var weiValue = BigInteger.valueOf(ethValue).multiply(BigInteger.valueOf(10).pow(18));
+        BigInteger weiValue = BigInteger.valueOf(ethValue).multiply(BigInteger.valueOf(10).pow(18));
         return weiValue;
+    }
+
+    private static void evmSkipTime(Integer seconds) throws IOException {
+        new Request<>("evm_increaseTime", Arrays.asList(seconds), new HttpService(), Response.class).send();
+        new Request<>("evm_mine", Collections.EMPTY_LIST, new HttpService(), Response.class).send();
     }
 
     public static void main(String[] args) throws Exception {
@@ -42,8 +55,8 @@ public class App {
         HashMap<String, String> contractName = new HashMap<>() {{
             put(dutchExchangeAddress.toUpperCase(), "DutchExchange");
             put(dxInteractsAddress.toUpperCase(), "DxInteracts");
-            put(wethAddress.toUpperCase(), "Weth");
-            put(gnoAddress.toUpperCase(), "gno");
+            put(wethAddress.toUpperCase(), "WETH");
+            put(gnoAddress.toUpperCase(), "GNO");
         }};
 
         // to call functions with different accounts, choose a different ClientTransactionManager
@@ -57,10 +70,10 @@ public class App {
         // 50e18 GNO tokens
         var startingGNO = toWei(50L);
 
-        // Transfering initial supply of GNO to dxi
-        gno.transfer(dxi.getContractAddress(), startingGNO).send();
         // Deposit GNO into the DutchExchange
-        dxi.depositToken(gnoAddress, startingGNO).send();
+        gno.approve(dx.getContractAddress(), startingGNO).send();
+        dx.deposit(gno.getContractAddress(), startingGNO).send();
+
         // Deposit 20 Ether into the DutchExchange as WETH (dxi converts it for you)
         dxi.depositEther(startingETH).send();
         
@@ -68,33 +81,43 @@ public class App {
         var endBlock = DefaultBlockParameter.valueOf("latest");
         
         dx.newTokenPairEventFlowable(startBlock, endBlock).subscribe(e -> {
-            System.out.println();
-            System.out.print("New Token Pair. ");
-            System.out.print("buy token: " + contractName.get(e.buyToken.toUpperCase()) + ", sell token: " + contractName.get(e.sellToken.toUpperCase()));
-            System.out.println();
+            String result = "New Token Pair." + System.lineSeparator() + 
+                            "buy token: " + contractName.get(e.buyToken.toUpperCase()) + ", " +
+                            "sell token: " + contractName.get(e.sellToken.toUpperCase());
+            System.out.println(System.lineSeparator() + result);
             
-            // Post WETH sell order on auction
-            var auctionIndex = dx.getAuctionIndex(wethAddress, gnoAddress).send();
-            var sellOrderAmount = BigInteger.valueOf(10000L);
-            dxi.postSellOrder(wethAddress, gnoAddress, auctionIndex, sellOrderAmount).send();
         });
         
         dx.newSellOrderEventFlowable(startBlock, endBlock).subscribe(e -> {
-            System.out.println();
-            System.out.print("New Sell Order. ");
-            System.out.print("buy token: " + contractName.get(e.buyToken.toUpperCase()) + ", sell token: " + contractName.get(e.sellToken.toUpperCase()) + ", amount: " + e.amount);
-            System.out.println();
+            String result = "New Sell Order." + System.lineSeparator() + 
+                            "buy token: " + contractName.get(e.buyToken.toUpperCase()) + ", " +
+                            "sell token: " + contractName.get(e.sellToken.toUpperCase()) + ", " +
+                            "amount: " + e.amount + ", " +
+                            "user: " + e.user;
+            System.out.println(System.lineSeparator() + result);
         });
-
+        
+        dx.newBuyOrderEventFlowable(startBlock, endBlock).subscribe(e -> {
+            String result = "New Buy Order." + System.lineSeparator() + 
+                            "buy token: " + contractName.get(e.buyToken.toUpperCase()) + ", " +
+                            "sell token: " + contractName.get(e.sellToken.toUpperCase()) + ", " +
+                            "amount: " + e.amount + ", " +
+                            "user: " + e.user;
+            System.out.println(System.lineSeparator() + result); 
+        });
+        
         // This prints out all dutchX deposits. Suitable for dev environment
         dx.newDepositEventFlowable(startBlock, endBlock).subscribe(e -> {
-            var tx = web3.ethGetTransactionByHash(e.log.getTransactionHash()).send();
-            var dtx = tx.getTransaction().get();
-            String _from = dtx.getFrom();
+            String result = "DutchExchange deposit." + System.lineSeparator() + 
+                            "token: " + contractName.get(e.token.toUpperCase()) + ", " +
+                            "amount: " + e.amount;
+            System.out.println(System.lineSeparator() + result);
+        });
 
-            System.out.println();
-            System.out.print("DutchExchange deposit. ");
-            System.out.println("token: " + contractName.get(e.token.toUpperCase()) + ", amount: " + e.amount);
+        dx.auctionClearedEventFlowable(startBlock, endBlock).subscribe(e -> {
+            // if its our auction
+            // TODO: check if sell or buy volume
+            dx.claimAndWithdraw(e.sellToken, e.buyToken, dxi.getContractAddress(), e.auctionIndex, e.sellVolume).send();
         });
         
         // Add token pair WETH <-> GNO on DutchExchange
@@ -103,5 +126,16 @@ public class App {
         var initialClosingPriceNum = BigInteger.valueOf(2L);
         var initialClosingPriceDen = BigInteger.valueOf(1L);
         dxi.addTokenPair(wethAddress, gnoAddress, token1Funding, token2Funding, initialClosingPriceNum, initialClosingPriceDen).send();
+        
+        // Post WETH sell order on auction
+        var auctionIndex = dx.getAuctionIndex(wethAddress, gnoAddress).send();
+        var sellOrderAmount = BigInteger.valueOf(10000L);
+        var buyOrderAmount = BigInteger.valueOf(10000L);
+        dxi.postSellOrder(wethAddress, gnoAddress, auctionIndex, sellOrderAmount).send();
+        
+        // Skip evm time ~6hrs for auction to open
+        evmSkipTime(22000);
+        
+        dx.postBuyOrder(wethAddress, gnoAddress, auctionIndex, buyOrderAmount).send();
     }
 }
