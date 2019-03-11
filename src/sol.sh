@@ -1,9 +1,11 @@
-dxiDir="../../dx-interacts/build/contracts/"
+truffleBuildDir="../../dx-interacts/build/contracts"
 
-dxiTruffleOutputPath=$dxiDir"DxInteracts.json"
-dxTruffleOutputPath=$dxiDir"DutchExchange.json"
-gnoTruffleOutputPath=$dxiDir"TokenGNO.json"
+targets="
+DxInteracts
+DutchExchange
+TokenGNO
+"
 
-web3j truffle generate $dxiTruffleOutputPath -o ./src/main/java -p dxi.server
-web3j truffle generate $dxTruffleOutputPath -o ./src/main/java -p dxi.server
-web3j truffle generate $gnoTruffleOutputPath -o ./src/main/java -p dxi.server
+for target in ${targets}; do
+    web3j truffle generate ${truffleBuildDir}/${target}.json -o ./src/main/java -p dxi.server 
+done
