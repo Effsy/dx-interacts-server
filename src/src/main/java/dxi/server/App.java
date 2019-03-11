@@ -126,12 +126,12 @@ public class App {
         // Post WETH sell order on auction
         var auctionIndex = dx.getAuctionIndex(wethAddress, gnoAddress).send();
         var sellOrderAmount = BigInteger.valueOf(10000L);
-        var buyOrderAmount = BigInteger.valueOf(10000L);
         dxi.postSellOrder(wethAddress, gnoAddress, auctionIndex, sellOrderAmount).send();
         
         // Skip evm time ~6hrs for auction to open
         evmSkipTime(22000);
         
+        var buyOrderAmount = BigInteger.valueOf(10000L);
         dx.postBuyOrder(wethAddress, gnoAddress, auctionIndex, buyOrderAmount).send();
     }
 }
