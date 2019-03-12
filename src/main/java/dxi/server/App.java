@@ -43,9 +43,9 @@ public class App {
     }
 
     public static void main(String[] args) throws Exception {
-        var accounts = getAccounts();
-        var ctm1 = new ClientTransactionManager(web3, accounts.get(0));
-        // var ctm2 = new ClientTransactionManager(web3, accounts.get(1));
+        List<String> accounts = getAccounts();
+        ClientTransactionManager ctm1 = new ClientTransactionManager(web3, accounts.get(0));
+        // ClientTransactionManager ctm2 = new ClientTransactionManager(web3, accounts.get(1));
 
         String dutchExchangeAddress = "0x2a504B5e7eC284ACa5b6f49716611237239F0b97";
         String dxInteractsAddress = "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c";
@@ -66,9 +66,9 @@ public class App {
         // EtherToken weth = new EtherToken(wethAddress, web3, ctm1, gasProvider);
         
         // 20 ether
-        var startingETH = toWei(20L);
+        BigInteger startingETH = toWei(20L);
         // 50e18 GNO tokens
-        var startingGNO = toWei(50L);
+        BigInteger startingGNO = toWei(50L);
 
         // Deposit GNO into the DutchExchange
         gno.approve(dx.getContractAddress(), startingGNO).send();
@@ -77,8 +77,8 @@ public class App {
         // Deposit 20 Ether into the DutchExchange as WETH (dxi converts it for you)
         dxi.depositEther(startingETH).send();
         
-        var startBlock = DefaultBlockParameter.valueOf("earliest");
-        var endBlock = DefaultBlockParameter.valueOf("latest");
+        DefaultBlockParameter startBlock = DefaultBlockParameter.valueOf("earliest");
+        DefaultBlockParameter endBlock = DefaultBlockParameter.valueOf("latest");
         
         dx.newTokenPairEventFlowable(startBlock, endBlock).subscribe(e -> {
             String result = "New Token Pair." + System.lineSeparator() + 
@@ -121,21 +121,21 @@ public class App {
         });
         
         // Add token pair WETH <-> GNO on DutchExchange
-        var token1Funding = toWei(10L);
-        var token2Funding = BigInteger.valueOf(0L);
-        var initialClosingPriceNum = BigInteger.valueOf(2L);
-        var initialClosingPriceDen = BigInteger.valueOf(1L);
+        BigInteger token1Funding = toWei(10L);
+        BigInteger token2Funding = BigInteger.valueOf(0L);
+        BigInteger initialClosingPriceNum = BigInteger.valueOf(2L);
+        BigInteger initialClosingPriceDen = BigInteger.valueOf(1L);
         dxi.addTokenPair(wethAddress, gnoAddress, token1Funding, token2Funding, initialClosingPriceNum, initialClosingPriceDen).send();
         
         // Post WETH sell order on auction
-        var auctionIndex = dx.getAuctionIndex(wethAddress, gnoAddress).send();
-        var sellOrderAmount = BigInteger.valueOf(10000L);
+        BigInteger auctionIndex = dx.getAuctionIndex(wethAddress, gnoAddress).send();
+        BigInteger sellOrderAmount = BigInteger.valueOf(10000L);
         dxi.postSellOrder(wethAddress, gnoAddress, auctionIndex, sellOrderAmount).send();
         
         // Skip evm time ~6hrs for auction to open
         evmSkipTime(22000);
         
-        var buyOrderAmount = BigInteger.valueOf(10000L);
+        BigInteger buyOrderAmount = BigInteger.valueOf(10000L);
         dx.postBuyOrder(wethAddress, gnoAddress, auctionIndex, buyOrderAmount).send();
     }
 }
