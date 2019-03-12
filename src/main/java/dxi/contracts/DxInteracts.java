@@ -1,4 +1,4 @@
-package dxi.server;
+package dxi.contracts;
 
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -51,8 +51,12 @@ public class DxInteracts extends Contract {
 
     static {
         _addresses = new HashMap<String, String>();
-        _addresses.put("1552240702094", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552242838677", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552403656035", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552402220758", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552333816530", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552402725668", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552330116594", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552329583095", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
     }
 
     @Deprecated

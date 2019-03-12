@@ -1,4 +1,4 @@
-package dxi.server;
+package dxi.contracts;
 
 import io.reactivex.Flowable;
 import java.math.BigInteger;
@@ -70,8 +70,12 @@ public class TokenGNO extends Contract {
 
     static {
         _addresses = new HashMap<String, String>();
-        _addresses.put("1552240702094", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552242838677", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552403656035", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552402220758", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552333816530", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552402725668", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552330116594", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552329583095", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
     }
 
     @Deprecated
