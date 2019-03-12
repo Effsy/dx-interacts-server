@@ -19,6 +19,8 @@ import org.web3j.tx.ClientTransactionManager;
 import org.web3j.tx.gas.DefaultGasProvider;
 import org.web3j.tx.gas.StaticGasProvider;
 
+import com.sun.jna.Library;
+import com.sun.jna.Native;
 
 public class App {
     private static final Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
@@ -42,11 +44,16 @@ public class App {
         var accounts = getAccounts();
         var ctm1 = new ClientTransactionManager(web3, accounts.get(0));
         // var ctm2 = new ClientTransactionManager(web3, accounts.get(1));
-
+        
         String dutchExchangeAddress = "0x2a504B5e7eC284ACa5b6f49716611237239F0b97";
         String dxInteractsAddress = "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c";
         String wethAddress = "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a";
         String gnoAddress = "0x2C2B9C9a4a25e24B174f26114e8926a9f2128FE4";
+
+        //System.setProperty("jna.library.path", "ion.so");
+        //System.out.println(IonProof.INSTANCE);
+        IonProof ionProof = (IonProof)Native.loadLibrary("ion.so", IonProof.class);
+        //System.out.println("Proof: " + ionProof.getProof("http://localhost:8545", "0x9597e78a107b8ed1daffaa9f80859ba74d16e56626fde71c52b8dcc8fe496d33"));
 
         HashMap<String, String> contractName = new HashMap<>() {{
             put(dutchExchangeAddress.toUpperCase(), "DutchExchange");
@@ -67,11 +74,11 @@ public class App {
         var startingGNO = toWei(50L);
 
         // Deposit GNO into the DutchExchange
-        gno.approve(dx.getContractAddress(), startingGNO).send();
-        dx.deposit(gno.getContractAddress(), startingGNO).send();
+        //gno.approve(dx.getContractAddress(), startingGNO).send();
+        //dx.deposit(gno.getContractAddress(), startingGNO).send();
 
         // Deposit 20 Ether into the DutchExchange as WETH (dxi converts it for you)
-        dxi.depositEther(startingETH).send();
+        //dxi.depositEther(startingETH).send();
         
         var startBlock = DefaultBlockParameter.valueOf("earliest");
         var endBlock = DefaultBlockParameter.valueOf("latest");
@@ -121,17 +128,26 @@ public class App {
         var token2Funding = BigInteger.valueOf(0L);
         var initialClosingPriceNum = BigInteger.valueOf(2L);
         var initialClosingPriceDen = BigInteger.valueOf(1L);
-        dxi.addTokenPair(wethAddress, gnoAddress, token1Funding, token2Funding, initialClosingPriceNum, initialClosingPriceDen).send();
+        //dxi.addTokenPair(wethAddress, gnoAddress, token1Funding, token2Funding, initialClosingPriceNum, initialClosingPriceDen).send();
         
         // Post WETH sell order on auction
         var auctionIndex = dx.getAuctionIndex(wethAddress, gnoAddress).send();
         var sellOrderAmount = BigInteger.valueOf(10000L);
-        dxi.postSellOrder(wethAddress, gnoAddress, auctionIndex, sellOrderAmount).send();
+        //dxi.postSellOrder(wethAddress, gnoAddress, auctionIndex, sellOrderAmount).send();
         
         // Skip evm time ~6hrs for auction to open
         evmSkipTime(22000);
         
         var buyOrderAmount = BigInteger.valueOf(10000L);
-        dx.postBuyOrder(wethAddress, gnoAddress, auctionIndex, buyOrderAmount).send();
+        //dx.postBuyOrder(wethAddress, gnoAddress, auctionIndex, buyOrderAmount).send();
+
+    }
+
+    public interface IonProof extends Library {
+ 
+        //IonProof INSTANCE = (IonProof) Native.loadLibrary("/ion.so", IonProof.class);
+
+        public byte[] getProof(String url, String transactionHash);
+
     }
 }
