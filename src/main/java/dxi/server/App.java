@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
@@ -38,8 +39,8 @@ public class App {
     }
 
     private static void evmSkipTime(Integer seconds) throws IOException {
-        new Request<>("evm_increaseTime", Arrays.asList(seconds), new HttpService(), Response.class).send();
-        new Request<>("evm_mine", Collections.EMPTY_LIST, new HttpService(), Response.class).send();
+        new Request("evm_increaseTime", Arrays.asList(seconds), new HttpService(), Response.class).send();
+        new Request("evm_mine", Collections.EMPTY_LIST, new HttpService(), Response.class).send();
     }
 
     public static void main(String[] args) throws Exception {
@@ -52,7 +53,7 @@ public class App {
         String wethAddress = "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a";
         String gnoAddress = "0x2C2B9C9a4a25e24B174f26114e8926a9f2128FE4";
 
-        HashMap<String, String> contractName = new HashMap<>() {{
+        Map<String, String> contractName = new HashMap<String, String>() {{
             put(dutchExchangeAddress.toUpperCase(), "DutchExchange");
             put(dxInteractsAddress.toUpperCase(), "DxInteracts");
             put(wethAddress.toUpperCase(), "WETH");
