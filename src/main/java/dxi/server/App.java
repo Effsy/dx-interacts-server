@@ -19,6 +19,10 @@ import org.web3j.tx.ClientTransactionManager;
 import org.web3j.tx.gas.DefaultGasProvider;
 import org.web3j.tx.gas.StaticGasProvider;
 
+import dxi.contracts.DutchExchange;
+import dxi.contracts.DxInteracts;
+import dxi.contracts.TokenGNO;
+
 
 public class App {
     private static final Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/
@@ -55,10 +59,10 @@ public class App {
             put(gnoAddress.toUpperCase(), "GNO");
         }};
 
-        // to call functions with different accounts, choose a different ClientTransactionManager
-        DutchExchange dx = new DutchExchange(dutchExchangeAddress, web3, ctm1, gasProvider);
-        DxInteracts dxi = new DxInteracts(dxInteractsAddress, web3, ctm1, gasProvider);
-        TokenGNO gno = new TokenGNO(gnoAddress, web3, ctm1, gasProvider);
+		// to call functions with different accounts, choose a different ClientTransactionManager
+        DutchExchange dx = DutchExchange.load(dutchExchangeAddress, web3, ctm1, gasProvider);
+        DxInteracts dxi = DxInteracts.load(dxInteractsAddress, web3, ctm1, gasProvider);
+        TokenGNO gno = TokenGNO.load(gnoAddress, web3, ctm1, gasProvider);
         // EtherToken weth = new EtherToken(wethAddress, web3, ctm1, gasProvider);
         
         // 20 ether
