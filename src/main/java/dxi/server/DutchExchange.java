@@ -232,8 +232,14 @@ public class DutchExchange extends Contract {
 
     static {
         _addresses = new HashMap<String, String>();
-        _addresses.put("1552240702094", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552242838677", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
+        _addresses.put("1552331761317", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
+        _addresses.put("1552428101182", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
+        _addresses.put("1552413078174", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
+        _addresses.put("1552401683146", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
+        _addresses.put("5777", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
+        _addresses.put("1552412817372", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
+        _addresses.put("1552425796121", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
+        _addresses.put("1552427742724", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
     }
 
     @Deprecated

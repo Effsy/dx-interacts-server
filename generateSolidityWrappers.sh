@@ -1,7 +1,8 @@
-truffleBuildDir="../../dx-interacts/build/contracts"
+truffleBuildDir="../dx-interacts/build/contracts"
 
 targets="
 DxInteracts
+DxiClaimAndWithdraw
 DutchExchange
 TokenGNO
 "
