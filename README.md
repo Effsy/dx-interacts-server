@@ -4,20 +4,7 @@
 
 #### Setup ganache
 
-Clone dxInteracts [contracts](https://github.com/Effsy/dx-interacts)
-
-
-Run your local ganache instance
-
-`> ganache-cli -m "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat"`
-
-Compile the contracts
-
-`> npx truffle compile`
-
-Deploy the contracts
-
-`> npx truffle migrate`
+Migrate the dxInteracts [contracts](https://github.com/Effsy/dx-interacts)
 
 #### Setup the server
 
