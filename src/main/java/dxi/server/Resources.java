@@ -53,7 +53,7 @@ public class Resources {
 
     public static TransactionManager getClientManager(String account) {
         if(transactionManager.get(account) == null) {
-            transactionManager.put(account, new ClientTransactionManager(getWeb3Provider(), accounts.get(0)));
+            transactionManager.put(account, new ClientTransactionManager(getWeb3Provider(), account));
         }
         return transactionManager.get(account);
     }
