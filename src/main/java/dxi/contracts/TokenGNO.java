@@ -1,4 +1,4 @@
-package dxi.server;
+package dxi.contracts;
 
 import io.reactivex.Flowable;
 import java.math.BigInteger;
@@ -70,14 +70,24 @@ public class TokenGNO extends Contract {
 
     static {
         _addresses = new HashMap<String, String>();
-        _addresses.put("1552331761317", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552428101182", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552413078174", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552401683146", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("5777", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552412817372", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552425796121", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552427742724", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552432085118", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552436622618", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552434000135", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552432281818", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552433892882", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552434291453", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552434622756", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552436360346", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552431839618", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552431920139", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552436479106", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552434357124", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552437292497", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552436796942", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552436006016", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552437055318", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552436980313", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552435802437", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
     }
 
     @Deprecated

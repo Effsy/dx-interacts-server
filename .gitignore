@@ -6,9 +6,6 @@ dist/.classpath
 .settings
 .vscode
 bin
-gradle
-gradlew
-gradlew.bat
 
 # Ignore Gradle project-specific cache directory
 .gradle

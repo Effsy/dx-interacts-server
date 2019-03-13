@@ -9,12 +9,14 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.Request;
 import org.web3j.protocol.core.Response;
 import org.web3j.protocol.http.HttpService;
+import org.web3j.tuples.generated.Tuple2;
 import org.web3j.tx.ClientTransactionManager;
 import org.web3j.tx.gas.DefaultGasProvider;
 import org.web3j.tx.gas.StaticGasProvider;
@@ -22,6 +24,11 @@ import org.web3j.tx.gas.StaticGasProvider;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.*;
+import dxi.contracts.DutchExchange;
+import dxi.contracts.DxInteracts;
+import dxi.contracts.EtherToken;
+import dxi.contracts.TokenGNO;
+
 
 public class App {
     private static final Web3j web3 = Web3j.build(new HttpService());  // defaults to http://localhost:8545/ 
@@ -37,14 +44,25 @@ public class App {
     }
 
     private static void evmSkipTime(Integer seconds) throws IOException {
-        new Request<>("evm_increaseTime", Arrays.asList(seconds), new HttpService(), Response.class).send();
-        new Request<>("evm_mine", Collections.EMPTY_LIST, new HttpService(), Response.class).send();
+        new Request("evm_increaseTime", Arrays.asList(seconds), new HttpService(), Response.class).send();
+        new Request("evm_mine", Collections.EMPTY_LIST, new HttpService(), Response.class).send();
     }
 
+    private static BigInteger getOutstandingVolume(DutchExchange dx, String sellTokenAddress, String buyTokenAddress, BigInteger auctionIndex) throws Exception {
+        BigInteger sellVolume = dx.sellVolumesCurrent(sellTokenAddress, buyTokenAddress).send();
+        BigInteger buyVol = dx.buyVolumes(sellTokenAddress, buyTokenAddress).send();
+        Tuple2<BigInteger, BigInteger> priceFraction = dx.getCurrentAuctionPrice(sellTokenAddress, buyTokenAddress, auctionIndex).send();
+        BigInteger price = priceFraction.getValue1().divide(priceFraction.getValue2());
+        
+        BigInteger outstandingVolume = sellVolume.multiply(price).subtract(buyVol);
+        
+        return outstandingVolume;
+    }
+    
     public static void main(String[] args) throws Exception {
-        var accounts = getAccounts();
-        var ctm1 = new ClientTransactionManager(web3, accounts.get(0));
-        // var ctm2 = new ClientTransactionManager(web3, accounts.get(1));
+        List<String> accounts = getAccounts();
+        ClientTransactionManager ctm1 = new ClientTransactionManager(web3, accounts.get(0));
+        // ClientTransactionManager ctm2 = new ClientTransactionManager(web3, accounts.get(1));
         
         String dutchExchangeAddress = "0x2a504B5e7eC284ACa5b6f49716611237239F0b97";
         String dxInteractsAddress = "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c";
@@ -58,100 +76,145 @@ public class App {
 
         //System.out.println("Proof: " + ionProof.getProof(clientUrl, txHash));
         
-        HashMap<String, String> contractName = new HashMap<>() {{
+        Map<String, String> contractName = new HashMap<String, String>() {{
             put(dutchExchangeAddress.toUpperCase(), "DutchExchange");
             put(dxInteractsAddress.toUpperCase(), "DxInteracts");
             put(wethAddress.toUpperCase(), "WETH");
             put(gnoAddress.toUpperCase(), "GNO");
         }};
         
-        // to call functions with different accounts, choose a different ClientTransactionManager
-        DutchExchange dx = new DutchExchange(dutchExchangeAddress, web3, ctm1, gasProvider);
-        DxInteracts dxi = new DxInteracts(dxInteractsAddress, web3, ctm1, gasProvider);
-        DxiClaimAndWithdraw dxiClaimAndWithdraw = new DxiClaimAndWithdraw(dxiClaimAndWithdrawAddress, web3, ctm1, gasProvider);
-        TokenGNO gno = new TokenGNO(gnoAddress, web3, ctm1, gasProvider);
-        // EtherToken weth = new EtherToken(wethAddress, web3, ctm1, gasProvider);
+		// to call functions with different accounts, choose a different ClientTransactionManager
+        DutchExchange dx = DutchExchange.load(dutchExchangeAddress, web3, ctm1, gasProvider);
+        DxInteracts dxi = DxInteracts.load(dxInteractsAddress, web3, ctm1, gasProvider);
+        TokenGNO gno = TokenGNO.load(gnoAddress, web3, ctm1, gasProvider);
+        EtherToken weth = EtherToken.load(wethAddress, web3, ctm1, gasProvider);
+        DxiClaimAndWithdraw dxiClaimAndWithdraw = DxiClaimAndWithdraw.load(dxiClaimAndWithdrawAddress, web3, ctm1, gasProvider);
         
         // 20 ether
-        var startingETH = toWei(20L);
+        BigInteger startingETH = toWei(20L);
         // 50e18 GNO tokens
-        var startingGNO = toWei(50L);
-
+        BigInteger startingGNO = toWei(50L);
+        
         // Deposit GNO into the DutchExchange
         gno.approve(dx.getContractAddress(), startingGNO).send();
         dx.deposit(gno.getContractAddress(), startingGNO).send();
-
+        
         // Deposit 20 Ether into the DutchExchange as WETH (dxi converts it for you)
         dxi.depositEther(startingETH).send();
         
-        var startBlock = DefaultBlockParameter.valueOf("earliest");
-        var endBlock = DefaultBlockParameter.valueOf("latest");
+        DefaultBlockParameter startBlock = DefaultBlockParameter.valueOf("earliest");
+        DefaultBlockParameter endBlock = DefaultBlockParameter.valueOf("latest");
         
         dx.newTokenPairEventFlowable(startBlock, endBlock).subscribe(e -> {
             String result = "New Token Pair." + System.lineSeparator() + 
-                            "buy token: " + contractName.get(e.buyToken.toUpperCase()) + ", " +
-                            "sell token: " + contractName.get(e.sellToken.toUpperCase());
+            "buy token: " + contractName.get(e.buyToken.toUpperCase()) + ", " +
+            "sell token: " + contractName.get(e.sellToken.toUpperCase());
             System.out.println(System.lineSeparator() + result);
             
         });
         
         dx.newSellOrderEventFlowable(startBlock, endBlock).subscribe(e -> {
             String result = "New Sell Order." + System.lineSeparator() + 
-                            "buy token: " + contractName.get(e.buyToken.toUpperCase()) + ", " +
-                            "sell token: " + contractName.get(e.sellToken.toUpperCase()) + ", " +
-                            "amount: " + e.amount + ", " +
-                            "user: " + e.user;
+            "buy token: " + contractName.get(e.buyToken.toUpperCase()) + ", " +
+            "sell token: " + contractName.get(e.sellToken.toUpperCase()) + ", " +
+            "amount: " + e.amount + ", " +
+            "user: " + e.user;
             System.out.println(System.lineSeparator() + result);
         });
         
         dx.newBuyOrderEventFlowable(startBlock, endBlock).subscribe(e -> {
             String result = "New Buy Order." + System.lineSeparator() + 
-                            "buy token: " + contractName.get(e.buyToken.toUpperCase()) + ", " +
-                            "sell token: " + contractName.get(e.sellToken.toUpperCase()) + ", " +
-                            "amount: " + e.amount + ", " +
-                            "user: " + e.user;
+            "buy token: " + contractName.get(e.buyToken.toUpperCase()) + ", " +
+            "sell token: " + contractName.get(e.sellToken.toUpperCase()) + ", " +
+            "amount: " + e.amount + ", " +
+            "user: " + e.user;
             System.out.println(System.lineSeparator() + result); 
         });
         
         // This prints out all dutchX deposits. Suitable for dev environment
         dx.newDepositEventFlowable(startBlock, endBlock).subscribe(e -> {
             String result = "DutchExchange deposit." + System.lineSeparator() + 
-                            "token: " + contractName.get(e.token.toUpperCase()) + ", " +
-                            "amount: " + e.amount;
+            "token: " + contractName.get(e.token.toUpperCase()) + ", " +
+            "amount: " + e.amount;
             System.out.println(System.lineSeparator() + result);
         });
-
+        
         dx.auctionClearedEventFlowable(startBlock, endBlock).subscribe(e -> {
             // if its our auction
             // TODO: check if sell or buy volume
             // String proof = getProof("http://localhost:8545/", );
             System.out.println(e);
             //dxiClaimAndWithdraw.claimAndWithdraw(e.sellToken, e.buyToken, dxi.getContractAddress(), e.auctionIndex, e.sellVolume).send();
+            System.out.println("auction cleared");
+            // dx.claimAndWithdraw(e.sellToken, e.buyToken, dxi.getContractAddress(), e.auctionIndex, e.sellVolume).send();
+        });
+
+        dx.newSellerFundsClaimEventFlowable(startBlock, endBlock).subscribe(e -> {
+            System.out.println("seller claimed: " + e.amount); 
+            dxi.withdraw(e.sellToken, e.amount);
+        });
+        
+        dx.newBuyerFundsClaimEventFlowable(startBlock, endBlock).subscribe(e -> {
+            // e.user;
+            System.out.println("buyer claimed: " + e.amount); 
+            dx.withdraw(e.buyToken, e.amount).send();
+            System.out.println("here");
+        });
+
+        dx.newWithdrawalEventFlowable(startBlock, endBlock).subscribe(e -> {
+            System.out.println("withdrawn: " + e.amount + " of " + e.token);
         });
         
         // Add token pair WETH <-> GNO on DutchExchange
-        var token1Funding = toWei(10L);
-        var token2Funding = BigInteger.valueOf(0L);
-        var initialClosingPriceNum = BigInteger.valueOf(2L);
-        var initialClosingPriceDen = BigInteger.valueOf(1L);
+        BigInteger token1Funding = toWei(10L);
+        BigInteger token2Funding = BigInteger.valueOf(0L);
+        BigInteger initialClosingPriceNum = BigInteger.valueOf(2L);
+        BigInteger initialClosingPriceDen = BigInteger.valueOf(1L);
+        // dx.withdraw(gnoAddress, BigInteger.valueOf(9950L)).send();
         dxi.addTokenPair(wethAddress, gnoAddress, token1Funding, token2Funding, initialClosingPriceNum, initialClosingPriceDen).send();
         
         // Post WETH sell order on auction
-        var auctionIndex = dx.getAuctionIndex(wethAddress, gnoAddress).send();
-        var sellOrderAmount = BigInteger.valueOf(10000L);
+        BigInteger auctionIndex = dx.getAuctionIndex(wethAddress, gnoAddress).send();
+        System.out.println("here: " + getOutstandingVolume(dx, wethAddress, gnoAddress, auctionIndex).toString());
+        BigInteger sellOrderAmount = BigInteger.valueOf(10000L);
         dxi.postSellOrder(wethAddress, gnoAddress, auctionIndex, sellOrderAmount).send();
         
         // Skip evm time ~6hrs for auction to open
         evmSkipTime(22000);
-        
-        //getCurrentAuctionPrice(address sellToken, address buyToken, uint auctionIndex)
-        var buyOrderAmount = BigInteger.valueOf(100000L);
+    
+        BigInteger buyOrderAmount = BigInteger.valueOf(10000L);
         dx.postBuyOrder(wethAddress, gnoAddress, auctionIndex, buyOrderAmount).send();
         
-        evmSkipTime(22000);
-        dxi.claimAuction(wethAddress, gnoAddress, dxi.getContractAddress(), auctionIndex, sellOrderAmount).send();
+        evmSkipTime(2200000);        
+        
+        System.out.println("here: " + getOutstandingVolume(dx, wethAddress, gnoAddress, auctionIndex).toString());
+        // sellerBalances[sellToken][buyToken][auctionIndex][user]
+        
+        System.out.println("gno balance in dx: " + dx.balances(gnoAddress, dxi.getContractAddress()).send().toString());
+        dxi.claimSellerFunds(wethAddress, gnoAddress, dxi.getContractAddress(), auctionIndex).send();
+        System.out.println("gno balance in dx: " + dx.balances(gnoAddress, dxi.getContractAddress()).send().toString());
+        
+        
+        // System.out.println("gno balance: " + gno.balanceOf(dxi.getContractAddress()).send().toString());
+        // dxi.withdraw(gnoAddress, BigInteger.valueOf(9950L)).send();
+        // System.out.println("gno balance: " + gno.balanceOf(dxi.getContractAddress()).send().toString());
+        
+        
+        System.out.println("weth balance in dx: " + dx.balances(wethAddress, accounts.get(0)).send().toString());
+        // dxi.claimSellerFunds(wethAddress, gnoAddress, dxi.getContractAddress(), auctionIndex).send();
+        System.out.println("weth balance in dx: " + dx.balances(wethAddress, accounts.get(0)).send().toString());
+        
+
+        System.out.println("buyer funds: " + dx.buyerBalances(wethAddress, gnoAddress, auctionIndex, accounts.get(0)).send().toString());
+        // dxi.claimAuction(wethAddress, gnoAddress, dxi.getContractAddress(), auctionIndex, BigInteger.valueOf(100)).send();
+        dx.claimBuyerFunds(wethAddress, gnoAddress, accounts.get(0), auctionIndex).send();
+        System.out.println("buyer funds: " + dx.buyerBalances(wethAddress, gnoAddress, auctionIndex, accounts.get(0)).send().toString());
+        
+        System.out.println("weth balance: " + weth.balanceOf(accounts.get(0)).send().toString());
+        dx.withdraw(gnoAddress, BigInteger.valueOf(9950L)).send();
+        System.out.println("weth balance: " + weth.balanceOf(accounts.get(0)).send().toString());
     }
-    
+
     public static void getProof(String clientUrl, String txHash){
         IonProof.GoString.ByValue goStringClientUrl = new IonProof.GoString.ByValue();
         goStringClientUrl.p = clientUrl;
@@ -180,6 +243,5 @@ public class App {
         }
 
         public GoString.ByValue getProof(GoString.ByValue url, GoString.ByValue transactionHash);
-
     }
 }
