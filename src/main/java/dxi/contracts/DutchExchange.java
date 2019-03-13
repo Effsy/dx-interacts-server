@@ -232,24 +232,8 @@ public class DutchExchange extends Contract {
 
     static {
         _addresses = new HashMap<String, String>();
-        _addresses.put("1552432085118", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552436622618", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552434000135", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552432281818", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552433892882", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552434291453", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552434622756", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552436360346", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552431839618", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552431920139", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552436479106", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552434357124", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552437292497", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552436796942", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552436006016", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552437055318", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552436980313", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552435802437", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
+        _addresses.put("1552469879644", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
+        _addresses.put("1552470442877", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
     }
 
     @Deprecated
