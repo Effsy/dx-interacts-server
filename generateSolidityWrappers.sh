@@ -2,7 +2,7 @@ truffleBuildDir="../dx-interacts/build/contracts"
 
 targets="
 DxInteracts
-DxiClaimAndWithdraw
+DxiClaimAuction
 DutchExchange
 TokenGNO
 EtherToken

@@ -20,14 +20,18 @@ import org.web3j.tuples.generated.Tuple2;
 import org.web3j.tx.ClientTransactionManager;
 import org.web3j.tx.gas.DefaultGasProvider;
 import org.web3j.tx.gas.StaticGasProvider;
+import org.web3j.utils.Numeric;
+import org.web3j.rlp.RlpEncoder;
 
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.*;
+
 import dxi.contracts.DutchExchange;
 import dxi.contracts.DxInteracts;
 import dxi.contracts.EtherToken;
 import dxi.contracts.TokenGNO;
+import dxi.contracts.DxiClaimAuction;
 
 
 public class App {
@@ -69,7 +73,7 @@ public class App {
         String wethAddress = "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a";
         String gnoAddress = "0x2C2B9C9a4a25e24B174f26114e8926a9f2128FE4";
 
-        String dxiClaimAndWithdrawAddress = "0x8273e4B8ED6c78e252a9fCa5563Adfcc75C91b2A";
+        String dxiClaimAuctionAddress = "0x8273e4B8ED6c78e252a9fCa5563Adfcc75C91b2A";
 
         //https://rinkeby.infura.io/v3/144987e76ca74fd18dec492e4b6e779b
         //IonProof ionProof = (IonProof)Native.loadLibrary("ion", IonProof.class);
@@ -88,7 +92,7 @@ public class App {
         DxInteracts dxi = DxInteracts.load(dxInteractsAddress, web3, ctm1, gasProvider);
         TokenGNO gno = TokenGNO.load(gnoAddress, web3, ctm1, gasProvider);
         EtherToken weth = EtherToken.load(wethAddress, web3, ctm1, gasProvider);
-        DxiClaimAndWithdraw dxiClaimAndWithdraw = DxiClaimAndWithdraw.load(dxiClaimAndWithdrawAddress, web3, ctm1, gasProvider);
+        DxiClaimAuction dxiClaimAuction = DxiClaimAuction.load(dxiClaimAuctionAddress, web3, ctm1, gasProvider);
         
         // 20 ether
         BigInteger startingETH = toWei(20L);
@@ -142,11 +146,15 @@ public class App {
         dx.auctionClearedEventFlowable(startBlock, endBlock).subscribe(e -> {
             // if its our auction
             // TODO: check if sell or buy volume
-            // String proof = getProof("http://localhost:8545/", );
-            System.out.println(e);
+            getProof("http://localhost:8545/", e.log.getTransactionHash());            
+            
             //dxiClaimAndWithdraw.claimAndWithdraw(e.sellToken, e.buyToken, dxi.getContractAddress(), e.auctionIndex, e.sellVolume).send();
             System.out.println("auction cleared");
             // dx.claimAndWithdraw(e.sellToken, e.buyToken, dxi.getContractAddress(), e.auctionIndex, e.sellVolume).send();
+            
+            
+            //System.out.println(proof);
+            //dxiClaimAuction.verifyAndExecute(Numeric.hexStringToByteArray(e.log.getBlockHash()), Numeric.hexStringToByteArray(proof), e.sellToken, e.buyToken, dxi.getContractAddress(), e.auctionIndex, e.sellVolume).send();
         });
 
         dx.newSellerFundsClaimEventFlowable(startBlock, endBlock).subscribe(e -> {
@@ -171,7 +179,7 @@ public class App {
         BigInteger initialClosingPriceNum = BigInteger.valueOf(2L);
         BigInteger initialClosingPriceDen = BigInteger.valueOf(1L);
         // dx.withdraw(gnoAddress, BigInteger.valueOf(9950L)).send();
-        dxi.addTokenPair(wethAddress, gnoAddress, token1Funding, token2Funding, initialClosingPriceNum, initialClosingPriceDen).send();
+        //dxi.addTokenPair(wethAddress, gnoAddress, token1Funding, token2Funding, initialClosingPriceNum, initialClosingPriceDen).send();
         
         // Post WETH sell order on auction
         BigInteger auctionIndex = dx.getAuctionIndex(wethAddress, gnoAddress).send();
@@ -224,13 +232,30 @@ public class App {
         goStringTxHash.p = txHash;
         goStringTxHash.n = goStringTxHash.p.length();
 
-        System.out.println(IonProof.ionProof.getProof(goStringClientUrl, goStringTxHash));
+        IonProof.GoSlice.ByValue goSliceProof = IonProof.ionProof.getProof(goStringClientUrl, goStringTxHash);
+        byte[] goProof = goSliceProof.data.getByteArray(0, (int)goSliceProof.len);
+        System.out.println(goSliceProof);
+        System.out.println(goProof);
+        //return goStringProof.p;
     }
+
+
 
     public interface IonProof extends Library {
 
         public static IonProof ionProof = (IonProof)Native.loadLibrary("ion", IonProof.class);
 
+        // GoSlice class maps to:
+        // C type struct { void *data; GoInt len; GoInt cap; }
+        public class GoSlice extends Structure {
+            public static class ByValue extends GoSlice implements Structure.ByValue {}
+            public Pointer data;
+            public long len;
+            public long cap;
+            protected List getFieldOrder(){
+                return Arrays.asList(new String[]{"data","len","cap"});
+            }
+        }
         // GoString class maps to:
         // C type struct { const char *p; GoInt n; }
         public class GoString extends Structure {
@@ -242,6 +267,8 @@ public class App {
             }
         }
 
-        public GoString.ByValue getProof(GoString.ByValue url, GoString.ByValue transactionHash);
+        public GoSlice.ByValue getProof(GoString.ByValue url, GoString.ByValue transactionHash);
+
+        //public long getProofLength(GoString.ByValue url, GoString.ByValue transactionHash);
     }
 }
