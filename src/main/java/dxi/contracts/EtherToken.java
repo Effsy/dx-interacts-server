@@ -81,24 +81,8 @@ public class EtherToken extends Contract {
 
     static {
         _addresses = new HashMap<String, String>();
-        _addresses.put("1552432085118", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
-        _addresses.put("1552436622618", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
-        _addresses.put("1552434000135", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
-        _addresses.put("1552432281818", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
-        _addresses.put("1552433892882", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
-        _addresses.put("1552434291453", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
-        _addresses.put("1552434622756", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
-        _addresses.put("1552436360346", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
-        _addresses.put("1552431839618", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
-        _addresses.put("1552431920139", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
-        _addresses.put("1552436479106", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
-        _addresses.put("1552434357124", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
-        _addresses.put("1552437292497", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
-        _addresses.put("1552436796942", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
-        _addresses.put("1552436006016", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
-        _addresses.put("1552437055318", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
-        _addresses.put("1552436980313", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
-        _addresses.put("1552435802437", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
+        _addresses.put("1552469879644", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
+        _addresses.put("1552470442877", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
     }
 
     @Deprecated
