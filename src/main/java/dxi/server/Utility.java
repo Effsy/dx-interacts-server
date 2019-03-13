@@ -20,10 +20,8 @@ import dxi.server.Resources;
 
 import com.sun.jna.Library;
 import com.sun.jna.Native;
-import com.sun.jna.Structure;
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.ByteByReference;
-import com.sun.jna.ptr.*;
 
 public class Utility {
 
@@ -38,7 +36,6 @@ public class Utility {
             put(Resources.WETH_ADDRESS.toUpperCase(), "WETH");
             put(Resources.GNO_ADDRESS.toUpperCase(), "GNO");
         }};
-        
         
         dx.newTokenPairEventFlowable(startBlock, endBlock).subscribe(e -> {
             String result = "New Token Pair." + System.lineSeparator() + 
@@ -78,8 +75,10 @@ public class Utility {
             // if its our auction
             // TODO: check if sell or buy volume
             
-            getProof("http://localhost:8545", e.log.getTransactionHash());            
+            String proof = getProof("http://localhost:8545", e.log.getTransactionHash());            
             
+            System.out.println("Generated the MPT proof for the auction cleared event: " + proof);
+
             //dxiClaimAndWithdraw.claimAndWithdraw(e.sellToken, e.buyToken, dxi.getContractAddress(), e.auctionIndex, e.sellVolume).send();
             //System.out.println("auction cleared");
             // dx.claimAndWithdraw(e.sellToken, e.buyToken, dxi.getContractAddress(), e.auctionIndex, e.sellVolume).send();
@@ -87,8 +86,6 @@ public class Utility {
             
             //System.out.println(proof);
             //dxiClaimAuction.verifyAndExecute(Numeric.hexStringToByteArray(e.log.getBlockHash()), Numeric.hexStringToByteArray(proof), e.sellToken, e.buyToken, dxi.getContractAddress(), e.auctionIndex, e.sellVolume).send();
-
-
 
             System.out.println("auction cleared");
         });
@@ -127,30 +124,33 @@ public class Utility {
         return weiValue;
     }
 
-    public static void getProof(String clientUrl, String txHash){
+
+    public static String getProof(String clientUrl, String txHash){
         ByteByReference proofRef = LibIon.INSTANCE.getIonProof(clientUrl, clientUrl.length(), txHash, txHash.length());
         Pointer p = proofRef.getPointer();
 
         int proofLength = LibIon.INSTANCE.getIonProofLength(clientUrl, clientUrl.length(), txHash, txHash.length());
 
         byte[] arr = p.getByteArray(0, proofLength);
-
-        System.out.println(bytesToHex(arr));
-        //System.out.println(Arrays.toString(arr));
+        return bytesToHex(arr);
     }
 
     private final static char[] hexArray = "0123456789abcdef".toCharArray();
 
     public static String bytesToHex(byte[] bytes) {
-        char[] hexChars = new char[bytes.length * 2];
-        for ( int j = 0; j < bytes.length; j++ ) {
+        char[] hexChars = new char[bytes.length * 2 + 2];
+        hexChars[0] = '0';
+        hexChars[1] = 'x';
+
+        for (int j = 0; j < bytes.length; j++ ) {
             int v = bytes[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+            hexChars[j * 2 + 2] = hexArray[v >>> 4]; //j * 2 + 2 for 0x
+            hexChars[j * 2 + 3] = hexArray[v & 0x0F]; //j * 2 + 1 + 2 for 0x
         }
         return new String(hexChars);
     }
 
+    // Java Native Access Library to used the ion shared object library
     public interface LibIon extends Library {
 
         public static LibIon INSTANCE = (LibIon)Native.loadLibrary("ion", LibIon.class);
