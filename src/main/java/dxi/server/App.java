@@ -35,6 +35,80 @@ public class App {
     private static final String dxInteractsAddress = "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c";
     private static final String wethAddress = "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a";
     private static final String gnoAddress = "0x2C2B9C9a4a25e24B174f26114e8926a9f2128FE4";
+    public static void main(String[] args) throws Exception {
+        List<String> accounts = getAccounts();
+        ClientTransactionManager ctm1 = new ClientTransactionManager(web3, accounts.get(0));
+        // ClientTransactionManager ctm2 = new ClientTransactionManager(web3, accounts.get(1));
+        
+        // to call functions with different accounts, choose a different ClientTransactionManager
+        DutchExchange dx = DutchExchange.load(dutchExchangeAddress, web3, ctm1, gasProvider);
+        DxInteracts dxi = DxInteracts.load(dxInteractsAddress, web3, ctm1, gasProvider);
+        TokenGNO gno = TokenGNO.load(gnoAddress, web3, ctm1, gasProvider);
+        EtherToken weth = EtherToken.load(wethAddress, web3, ctm1, gasProvider);
+        
+        // 20 ether
+        BigInteger startingETH = toWei(20L);
+        // 50e18 GNO tokens
+        BigInteger startingGNO = toWei(50L);
+        
+        // Deposit GNO into the DutchExchange
+        gno.approve(dx.getContractAddress(), startingGNO).send();
+        dx.deposit(gno.getContractAddress(), startingGNO).send();
+        
+        // Deposit 20 Ether into the DutchExchange as WETH (dxi converts it for you)
+        dxi.depositEther(startingETH).send();
+        
+        activateLogs(dx);
+    
+        // Add token pair WETH <-> GNO on DutchExchange
+        BigInteger token1Funding = toWei(10L);
+        BigInteger token2Funding = BigInteger.valueOf(0L);
+        BigInteger initialClosingPriceNum = BigInteger.valueOf(2L);
+        BigInteger initialClosingPriceDen = BigInteger.valueOf(1L);
+        // dx.withdraw(gnoAddress, BigInteger.valueOf(9950L)).send();
+        dxi.addTokenPair(wethAddress, gnoAddress, token1Funding, token2Funding, initialClosingPriceNum, initialClosingPriceDen).send();
+        
+        // Post WETH sell order on auction
+        BigInteger auctionIndex = dx.getAuctionIndex(wethAddress, gnoAddress).send();
+        System.out.println("here: " + getOutstandingVolume(dx, wethAddress, gnoAddress, auctionIndex).toString());
+        BigInteger sellOrderAmount = BigInteger.valueOf(10000L);
+        dxi.postSellOrder(wethAddress, gnoAddress, auctionIndex, sellOrderAmount).send();
+        
+        // Skip evm time ~6hrs for auction to open
+        evmSkipTime(22000);
+        
+        BigInteger buyOrderAmount = BigInteger.valueOf(10000L);
+        dx.postBuyOrder(wethAddress, gnoAddress, auctionIndex, buyOrderAmount).send();
+        
+        evmSkipTime(2200000);        
+        
+        System.out.println("here: " + getOutstandingVolume(dx, wethAddress, gnoAddress, auctionIndex).toString());
+        // sellerBalances[sellToken][buyToken][auctionIndex][user]
+        
+        System.out.println("gno balance in dx: " + dx.balances(gnoAddress, dxi.getContractAddress()).send().toString());
+        dxi.claimSellerFunds(wethAddress, gnoAddress, dxi.getContractAddress(), auctionIndex).send();
+        System.out.println("gno balance in dx: " + dx.balances(gnoAddress, dxi.getContractAddress()).send().toString());
+        
+        
+        // System.out.println("gno balance: " + gno.balanceOf(dxi.getContractAddress()).send().toString());
+        // dxi.withdraw(gnoAddress, BigInteger.valueOf(9950L)).send();
+        // System.out.println("gno balance: " + gno.balanceOf(dxi.getContractAddress()).send().toString());
+        
+        
+        System.out.println("weth balance in dx: " + dx.balances(wethAddress, accounts.get(0)).send().toString());
+        // dxi.claimSellerFunds(wethAddress, gnoAddress, dxi.getContractAddress(), auctionIndex).send();
+        System.out.println("weth balance in dx: " + dx.balances(wethAddress, accounts.get(0)).send().toString());
+        
+    
+        System.out.println("buyer funds: " + dx.buyerBalances(wethAddress, gnoAddress, auctionIndex, accounts.get(0)).send().toString());
+        // dxi.claimAuction(wethAddress, gnoAddress, dxi.getContractAddress(), auctionIndex, BigInteger.valueOf(100)).send();
+        dx.claimBuyerFunds(wethAddress, gnoAddress, accounts.get(0), auctionIndex).send();
+        System.out.println("buyer funds: " + dx.buyerBalances(wethAddress, gnoAddress, auctionIndex, accounts.get(0)).send().toString());
+        
+        System.out.println("weth balance: " + weth.balanceOf(accounts.get(0)).send().toString());
+        dx.withdraw(gnoAddress, BigInteger.valueOf(9950L)).send();
+        System.out.println("weth balance: " + weth.balanceOf(accounts.get(0)).send().toString());
+    }
     
     public static List<String> getAccounts() throws IOException {
         return web3.ethAccounts().send().getAccounts();
@@ -126,79 +200,5 @@ public class App {
         });
     }
 
-    public static void main(String[] args) throws Exception {
-        List<String> accounts = getAccounts();
-        ClientTransactionManager ctm1 = new ClientTransactionManager(web3, accounts.get(0));
-        // ClientTransactionManager ctm2 = new ClientTransactionManager(web3, accounts.get(1));
-        
-        // to call functions with different accounts, choose a different ClientTransactionManager
-        DutchExchange dx = DutchExchange.load(dutchExchangeAddress, web3, ctm1, gasProvider);
-        DxInteracts dxi = DxInteracts.load(dxInteractsAddress, web3, ctm1, gasProvider);
-        TokenGNO gno = TokenGNO.load(gnoAddress, web3, ctm1, gasProvider);
-        EtherToken weth = EtherToken.load(wethAddress, web3, ctm1, gasProvider);
-        
-        // 20 ether
-        BigInteger startingETH = toWei(20L);
-        // 50e18 GNO tokens
-        BigInteger startingGNO = toWei(50L);
-        
-        // Deposit GNO into the DutchExchange
-        gno.approve(dx.getContractAddress(), startingGNO).send();
-        dx.deposit(gno.getContractAddress(), startingGNO).send();
-        
-        // Deposit 20 Ether into the DutchExchange as WETH (dxi converts it for you)
-        dxi.depositEther(startingETH).send();
-        
-        activateLogs(dx);
-    
-        // Add token pair WETH <-> GNO on DutchExchange
-        BigInteger token1Funding = toWei(10L);
-        BigInteger token2Funding = BigInteger.valueOf(0L);
-        BigInteger initialClosingPriceNum = BigInteger.valueOf(2L);
-        BigInteger initialClosingPriceDen = BigInteger.valueOf(1L);
-        // dx.withdraw(gnoAddress, BigInteger.valueOf(9950L)).send();
-        dxi.addTokenPair(wethAddress, gnoAddress, token1Funding, token2Funding, initialClosingPriceNum, initialClosingPriceDen).send();
-        
-        // Post WETH sell order on auction
-        BigInteger auctionIndex = dx.getAuctionIndex(wethAddress, gnoAddress).send();
-        System.out.println("here: " + getOutstandingVolume(dx, wethAddress, gnoAddress, auctionIndex).toString());
-        BigInteger sellOrderAmount = BigInteger.valueOf(10000L);
-        dxi.postSellOrder(wethAddress, gnoAddress, auctionIndex, sellOrderAmount).send();
-        
-        // Skip evm time ~6hrs for auction to open
-        evmSkipTime(22000);
-        
-        BigInteger buyOrderAmount = BigInteger.valueOf(10000L);
-        dx.postBuyOrder(wethAddress, gnoAddress, auctionIndex, buyOrderAmount).send();
-        
-        evmSkipTime(2200000);        
-        
-        System.out.println("here: " + getOutstandingVolume(dx, wethAddress, gnoAddress, auctionIndex).toString());
-        // sellerBalances[sellToken][buyToken][auctionIndex][user]
-        
-        System.out.println("gno balance in dx: " + dx.balances(gnoAddress, dxi.getContractAddress()).send().toString());
-        dxi.claimSellerFunds(wethAddress, gnoAddress, dxi.getContractAddress(), auctionIndex).send();
-        System.out.println("gno balance in dx: " + dx.balances(gnoAddress, dxi.getContractAddress()).send().toString());
-        
-        
-        // System.out.println("gno balance: " + gno.balanceOf(dxi.getContractAddress()).send().toString());
-        // dxi.withdraw(gnoAddress, BigInteger.valueOf(9950L)).send();
-        // System.out.println("gno balance: " + gno.balanceOf(dxi.getContractAddress()).send().toString());
-        
-        
-        System.out.println("weth balance in dx: " + dx.balances(wethAddress, accounts.get(0)).send().toString());
-        // dxi.claimSellerFunds(wethAddress, gnoAddress, dxi.getContractAddress(), auctionIndex).send();
-        System.out.println("weth balance in dx: " + dx.balances(wethAddress, accounts.get(0)).send().toString());
-        
-    
-        System.out.println("buyer funds: " + dx.buyerBalances(wethAddress, gnoAddress, auctionIndex, accounts.get(0)).send().toString());
-        // dxi.claimAuction(wethAddress, gnoAddress, dxi.getContractAddress(), auctionIndex, BigInteger.valueOf(100)).send();
-        dx.claimBuyerFunds(wethAddress, gnoAddress, accounts.get(0), auctionIndex).send();
-        System.out.println("buyer funds: " + dx.buyerBalances(wethAddress, gnoAddress, auctionIndex, accounts.get(0)).send().toString());
-        
-        System.out.println("weth balance: " + weth.balanceOf(accounts.get(0)).send().toString());
-        dx.withdraw(gnoAddress, BigInteger.valueOf(9950L)).send();
-        System.out.println("weth balance: " + weth.balanceOf(accounts.get(0)).send().toString());
-    }
     
 }
