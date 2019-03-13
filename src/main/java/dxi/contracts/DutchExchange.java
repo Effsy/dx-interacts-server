@@ -235,6 +235,7 @@ public class DutchExchange extends Contract {
         _addresses.put("1552479565429", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
         _addresses.put("1552472095368", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
         _addresses.put("1552477877832", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
+        _addresses.put("1552480989050", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
         _addresses.put("1552480028214", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
         _addresses.put("1552479456813", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
         _addresses.put("1552480528445", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
@@ -243,6 +244,7 @@ public class DutchExchange extends Contract {
         _addresses.put("1552480097887", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
         _addresses.put("1552469879644", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
         _addresses.put("1552480293309", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
+        _addresses.put("1552481044336", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
         _addresses.put("1552472414983", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
         _addresses.put("1552480390920", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
         _addresses.put("1552480344273", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
