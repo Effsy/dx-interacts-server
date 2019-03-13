@@ -65,7 +65,6 @@ public class App {
         BigInteger token2Funding = BigInteger.valueOf(0L);
         BigInteger initialClosingPriceNum = BigInteger.valueOf(2L);
         BigInteger initialClosingPriceDen = BigInteger.valueOf(1L);
-        // dx.withdraw(gnoAddress, BigInteger.valueOf(9950L)).send();
         dxi.addTokenPair(wethAddress, gnoAddress, token1Funding, token2Funding, initialClosingPriceNum, initialClosingPriceDen).send();
         
         // Post WETH sell order on auction
@@ -90,18 +89,11 @@ public class App {
         System.out.println("gno balance in dx: " + dx.balances(gnoAddress, dxi.getContractAddress()).send().toString());
         
         
-        // System.out.println("gno balance: " + gno.balanceOf(dxi.getContractAddress()).send().toString());
-        // dxi.withdraw(gnoAddress, BigInteger.valueOf(9950L)).send();
-        // System.out.println("gno balance: " + gno.balanceOf(dxi.getContractAddress()).send().toString());
-        
-        
         System.out.println("weth balance in dx: " + dx.balances(wethAddress, accounts.get(0)).send().toString());
-        // dxi.claimSellerFunds(wethAddress, gnoAddress, dxi.getContractAddress(), auctionIndex).send();
         System.out.println("weth balance in dx: " + dx.balances(wethAddress, accounts.get(0)).send().toString());
         
     
         System.out.println("buyer funds: " + dx.buyerBalances(wethAddress, gnoAddress, auctionIndex, accounts.get(0)).send().toString());
-        // dxi.claimAuction(wethAddress, gnoAddress, dxi.getContractAddress(), auctionIndex, BigInteger.valueOf(100)).send();
         dx.claimBuyerFunds(wethAddress, gnoAddress, accounts.get(0), auctionIndex).send();
         System.out.println("buyer funds: " + dx.buyerBalances(wethAddress, gnoAddress, auctionIndex, accounts.get(0)).send().toString());
         
