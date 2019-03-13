@@ -128,16 +128,18 @@ public class Utility {
     }
 
     public static void getProof(String clientUrl, String txHash){
-        ByteByReference proofRef = LibIon.INSTANCE.getIonProof("http://localhost:8545", 21, txHash, txHash.length());
+        ByteByReference proofRef = LibIon.INSTANCE.getIonProof(clientUrl, clientUrl.length(), txHash, txHash.length());
         Pointer p = proofRef.getPointer();
-        byte[] arr = p.getByteArray(0, 20);
+
+        int proofLength = LibIon.INSTANCE.getIonProofLength(clientUrl, clientUrl.length(), txHash, txHash.length());
+
+        byte[] arr = p.getByteArray(0, proofLength);
+
         System.out.println(bytesToHex(arr));
-        System.out.println(Arrays.toString(arr));
+        //System.out.println(Arrays.toString(arr));
     }
 
-    //f907bc00f8e52b8083419ce0944e71920b7330515faf5ea0c690f1ad06a85fb60c80b88465054e55000000000000000000000000f
-
-    private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
+    private final static char[] hexArray = "0123456789abcdef".toCharArray();
 
     public static String bytesToHex(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
@@ -155,34 +157,7 @@ public class Utility {
 
         public ByteByReference getIonProof(String url, int urlLength, String txHash, int txHashLength);
 
-        // public static CTest ctest = (IonProof)Native.loadLibrary("ctest", IonProof.class);
+        public int getIonProofLength(String url, int urlLength, String txHash, int txHashLength);
 
-        // // GoSlice class maps to:
-        // // C type struct { void *data; GoInt len; GoInt cap; }
-        // public class GoSlice extends Structure {
-        //     public static class ByValue extends GoSlice implements Structure.ByValue {}
-        //     public Pointer data;
-        //     public long len;
-        //     public long cap;
-        //     protected List getFieldOrder(){
-        //         return Arrays.asList(new String[]{"data","len","cap"});
-        //     }
-        // }
-        // // GoString class maps to:
-        // // C type struct { const char *p; GoInt n; }
-        // public class GoString extends Structure {
-        //     public static class ByValue extends GoString implements Structure.ByValue {}
-        //     public String p;
-        //     public long n;
-        //     protected List getFieldOrder(){
-        //         return Arrays.asList(new String[]{"p","n"});
-        //     }
-        // }
-
-        // //public String getProof(GoString.ByValue url, GoString.ByValue transactionHash);
-
-        // public long getProofData(GoString.ByValue url, GoString.ByValue transactionHash);
-
-        // public int getProofLength(GoString.ByValue url, GoString.ByValue transactionHash);
     }
 }
