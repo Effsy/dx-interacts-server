@@ -49,7 +49,6 @@ public class App {
         
         // Post WETH sell order on auction
         BigInteger auctionIndex = dx.getAuctionIndex(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS).send();
-        System.out.println("here: " + Utility.getOutstandingVolume(dx, Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, auctionIndex).toString());
         BigInteger sellOrderAmount = BigInteger.valueOf(10000L);
         dxi.postSellOrder(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, auctionIndex, sellOrderAmount).send();
         
@@ -59,26 +58,22 @@ public class App {
         BigInteger buyOrderAmount = BigInteger.valueOf(10000L);
         dx.postBuyOrder(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, auctionIndex, buyOrderAmount).send();
         
-        Utility.evmSkipTime(2200000);        
-        
-        System.out.println("here: " + Utility.getOutstandingVolume(dx, Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, auctionIndex).toString());
-        // sellerBalances[sellToken][buyToken][auctionIndex][user]
-        
-        System.out.println("gno balance in dx: " + dx.balances(Resources.GNO_ADDRESS, dxi.getContractAddress()).send().toString());
+        BigInteger preSellerFunds = dx.balances(Resources.GNO_ADDRESS, dxi.getContractAddress()).send();
+        // Skip evm time for auction to close
+        Utility.evmSkipTime(2200000);
         dxi.claimSellerFunds(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, dxi.getContractAddress(), auctionIndex).send();
-        System.out.println("gno balance in dx: " + dx.balances(Resources.GNO_ADDRESS, dxi.getContractAddress()).send().toString());
         
+        BigInteger postSellerFunds = dx.balances(Resources.GNO_ADDRESS, dxi.getContractAddress()).send();        
+        System.out.println("dx balance -> pre: " + preSellerFunds + ", post: " + postSellerFunds);
         
-        System.out.println("weth balance in dx: " + dx.balances(Resources.WETH_ADDRESS, Resources.getAccounts().get(0)).send().toString());
-        System.out.println("weth balance in dx: " + dx.balances(Resources.WETH_ADDRESS, Resources.getAccounts().get(0)).send().toString());
+        BigInteger preGnoFunds = gno.balanceOf(accounts.get(0)).send();
+        // BigInteger preGnoFunds = gno.balanceOf(dxi.getContractAddress()).send();
+        dxi.withdraw(Resources.GNO_ADDRESS, postSellerFunds).send();
+        BigInteger postGnoFunds = gno.balanceOf(accounts.get(0)).send();
         
-    
-        System.out.println("buyer funds: " + dx.buyerBalances(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, auctionIndex, Resources.getAccounts().get(0)).send().toString());
-        dx.claimBuyerFunds(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, Resources.getAccounts().get(0), auctionIndex).send();
-        System.out.println("buyer funds: " + dx.buyerBalances(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, auctionIndex, Resources.getAccounts().get(0)).send().toString());
-        
-        System.out.println("weth balance: " + weth.balanceOf(Resources.getAccounts().get(0)).send().toString());
-        dx.withdraw(Resources.GNO_ADDRESS, BigInteger.valueOf(9950L)).send();
-        System.out.println("weth balance: " + weth.balanceOf(Resources.getAccounts().get(0)).send().toString());
+        System.out.println("GNO balance of dxi after withdrawal: " + gno.balanceOf(dxi.getContractAddress()).send());
+        System.out.println("gno balance of account -> pre: " + preGnoFunds + ", post: " + postGnoFunds + ", diff: " + postGnoFunds.subtract(preGnoFunds));
+        // dx.claimBuyerFunds(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, accounts.get(0), auctionIndex).send();
+        // dx.withdraw(Resources.GNO_ADDRESS, BigInteger.valueOf(9950L)).send();
     }
 }
