@@ -4,6 +4,7 @@ targets="
 DxInteracts
 DutchExchange
 TokenGNO
+EtherToken
 "
 
 for target in ${targets}; do
