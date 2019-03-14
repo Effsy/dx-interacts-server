@@ -49,8 +49,8 @@ public class Resources {
     private static Map<TransactionManager, DxiClaimAuction> dxiClaimAuction = new HashMap<>();
 
     //For testing
-    private static Map<TransactionManager, DxiClaimAuction> dxiTriggerPostSellOrder = new HashMap<>();
-    private static Map<TransactionManager, DxiClaimAuction> eventEmitter = new HashMap<>();
+    private static Map<TransactionManager, DxiTriggerPostSellOrder> dxiTriggerPostSellOrder = new HashMap<>();
+    private static Map<TransactionManager, EventEmitter> eventEmitter = new HashMap<>();
 
     public static Web3j getWeb3Provider() {
         if(web3 == null) {

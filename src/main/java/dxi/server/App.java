@@ -48,10 +48,10 @@ public class App {
         
         // Deposit GNO into the DutchExchange
         gno.approve(dx.getContractAddress(), startingGNO).send();
-        //dx.deposit(gno.getContractAddress(), startingGNO).send();
+        dx.deposit(gno.getContractAddress(), startingGNO).send();
         
         // Deposit 20 Ether into the DutchExchange as WETH (dxi converts it for you)
-        //dxi.depositEther(startingETH).send();
+        dxi.depositEther(startingETH).send();
         
     
         // Add token pair WETH <-> GNO on DutchExchange
@@ -59,30 +59,30 @@ public class App {
         BigInteger token2Funding = BigInteger.valueOf(0L);
         BigInteger initialClosingPriceNum = BigInteger.valueOf(2L);
         BigInteger initialClosingPriceDen = BigInteger.valueOf(1L);
-        //dxi.addTokenPair(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, token1Funding, token2Funding, initialClosingPriceNum, initialClosingPriceDen).send();
+        dxi.addTokenPair(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, token1Funding, token2Funding, initialClosingPriceNum, initialClosingPriceDen).send();
         
         // Post WETH sell order on auction
         BigInteger auctionIndex = dx.getAuctionIndex(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS).send();
         BigInteger sellOrderAmount = BigInteger.valueOf(10000L);
-        //dxi.postSellOrder(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, auctionIndex, sellOrderAmount).send();
+        dxi.postSellOrder(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, auctionIndex, sellOrderAmount).send();
         
         // Skip evm time ~6hrs for auction to open
         Utility.evmSkipTime(22000);
         
         BigInteger buyOrderAmount = BigInteger.valueOf(10000L);
-        //dx.postBuyOrder(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, auctionIndex, buyOrderAmount).send();
+        dx.postBuyOrder(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, auctionIndex, buyOrderAmount).send();
         
         BigInteger preSellerFunds = dx.balances(Resources.GNO_ADDRESS, dxi.getContractAddress()).send();
         // Skip evm time for auction to close
         Utility.evmSkipTime(2200000);
-        //dxi.claimSellerFunds(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, dxi.getContractAddress(), auctionIndex).send();
+        dxi.claimSellerFunds(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, dxi.getContractAddress(), auctionIndex).send();
         
         BigInteger postSellerFunds = dx.balances(Resources.GNO_ADDRESS, dxi.getContractAddress()).send();        
         System.out.println("dx balance -> pre: " + preSellerFunds + ", post: " + postSellerFunds);
         
         BigInteger preGnoFunds = gno.balanceOf(accounts.get(0)).send();
         // BigInteger preGnoFunds = gno.balanceOf(dxi.getContractAddress()).send();
-        //dxi.withdraw(Resources.GNO_ADDRESS, postSellerFunds).send();
+        dxi.withdraw(Resources.GNO_ADDRESS, postSellerFunds).send();
         BigInteger postGnoFunds = gno.balanceOf(accounts.get(0)).send();
         
         System.out.println("GNO balance of dxi after withdrawal: " + gno.balanceOf(dxi.getContractAddress()).send());
@@ -109,13 +109,13 @@ public class App {
 
         //     System.out.println("Post sell order placed, triggered by an event");
         // });
-
+        //
         // // Trigger the event verifier
         // eventEmitter.emitEvent().send();
         // System.out.println("An event was emitted (manually) to simulate an on-chain event");
 
-        
-        // // Test auction clearing event submission
+
+        // // Test auction clearing event submission test
         // dx.auctionClearedEventFlowable(startBlock, endBlock).subscribe(e -> {
             
         //     byte[] proof = Utility.getProof("http://localhost:8545", e.log.getTransactionHash());            
