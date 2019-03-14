@@ -70,24 +70,8 @@ public class TokenGNO extends Contract {
 
     static {
         _addresses = new HashMap<String, String>();
-        _addresses.put("1552479565429", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552472095368", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552477877832", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552480989050", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552480028214", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552479456813", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552480528445", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552471101578", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552480837624", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552480097887", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552469879644", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552480293309", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552481044336", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552472414983", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552480390920", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552480344273", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552470442877", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552471763422", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552544443568", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
+        _addresses.put("1552542794242", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
     }
 
     @Deprecated
