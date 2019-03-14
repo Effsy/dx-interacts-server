@@ -15,7 +15,10 @@ import org.web3j.protocol.core.Request;
 import org.web3j.protocol.core.Response;
 import org.web3j.protocol.http.HttpService;
 
+
 import dxi.contracts.DutchExchange;
+import dxi.contracts.DxiClaimAuction;
+
 import dxi.server.Resources;
 
 import com.sun.jna.Library;
@@ -74,18 +77,6 @@ public class Utility {
         dx.auctionClearedEventFlowable(startBlock, endBlock).subscribe(e -> {
             // if its our auction
             // TODO: check if sell or buy volume
-            
-            String proof = getProof("http://localhost:8545", e.log.getTransactionHash());            
-            
-            System.out.println("Generated the MPT proof for the auction cleared event: " + proof);
-
-            //dxiClaimAndWithdraw.claimAndWithdraw(e.sellToken, e.buyToken, dxi.getContractAddress(), e.auctionIndex, e.sellVolume).send();
-            //System.out.println("auction cleared");
-            // dx.claimAndWithdraw(e.sellToken, e.buyToken, dxi.getContractAddress(), e.auctionIndex, e.sellVolume).send();
-            
-            
-            //System.out.println(proof);
-            //dxiClaimAuction.verifyAndExecute(Numeric.hexStringToByteArray(e.log.getBlockHash()), Numeric.hexStringToByteArray(proof), e.sellToken, e.buyToken, dxi.getContractAddress(), e.auctionIndex, e.sellVolume).send();
 
             System.out.println("auction cleared");
         });
@@ -125,14 +116,14 @@ public class Utility {
     }
 
 
-    public static String getProof(String clientUrl, String txHash){
+    public static byte[] getProof(String clientUrl, String txHash){
         ByteByReference proofRef = LibIon.INSTANCE.getIonProof(clientUrl, clientUrl.length(), txHash, txHash.length());
         Pointer p = proofRef.getPointer();
 
         int proofLength = LibIon.INSTANCE.getIonProofLength(clientUrl, clientUrl.length(), txHash, txHash.length());
 
         byte[] arr = p.getByteArray(0, proofLength);
-        return bytesToHex(arr);
+        return arr;
     }
 
     private final static char[] hexArray = "0123456789abcdef".toCharArray();

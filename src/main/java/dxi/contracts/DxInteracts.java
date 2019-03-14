@@ -77,46 +77,8 @@ public class DxInteracts extends Contract {
 
     static {
         _addresses = new HashMap<String, String>();
-        _addresses.put("1552431466089", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552430908360", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552444159206", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552448847138", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552450175306", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552484701349", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552451113250", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552447531996", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552450052919", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552450454648", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552427742724", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552331761317", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552448725767", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552448968544", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552447668081", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552481127352", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552484480677", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("5777", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552425796121", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552482677787", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552447066813", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552449902377", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552431549841", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552446743753", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552449247995", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552483433997", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552450612332", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552413078174", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552447027251", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552447763019", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552445542577", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552482772432", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552447403026", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552428101182", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552449527380", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552401683146", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552412817372", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552446896297", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552450296348", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
-        _addresses.put("1552450772480", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552544443568", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552542794242", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
     }
 
     @Deprecated

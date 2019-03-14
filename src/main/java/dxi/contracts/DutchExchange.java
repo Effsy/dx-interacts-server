@@ -232,46 +232,8 @@ public class DutchExchange extends Contract {
 
     static {
         _addresses = new HashMap<String, String>();
-        _addresses.put("1552431466089", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552430908360", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552444159206", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552448847138", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552450175306", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552484701349", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552451113250", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552447531996", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552450052919", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552450454648", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552427742724", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552331761317", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552448725767", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552448968544", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552447668081", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552481127352", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552484480677", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("5777", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552425796121", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552482677787", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552447066813", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552449902377", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552431549841", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552446743753", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552449247995", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552483433997", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552450612332", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552413078174", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552447027251", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552447763019", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552445542577", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552482772432", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552447403026", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552428101182", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552449527380", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552401683146", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552412817372", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552446896297", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552450296348", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
-        _addresses.put("1552450772480", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
+        _addresses.put("1552544443568", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
+        _addresses.put("1552542794242", "0x3d49d1eF2adE060a33c6E6Aa213513A7EE9a6241");
     }
 
     @Deprecated

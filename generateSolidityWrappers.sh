@@ -6,6 +6,8 @@ DxiClaimAuction
 DutchExchange
 TokenGNO
 EtherToken
+DxiTriggerPostSellOrder
+EventEmitter
 "
 
 for target in ${targets}; do

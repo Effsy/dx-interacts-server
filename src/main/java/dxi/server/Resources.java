@@ -2,7 +2,7 @@ package dxi.server;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.HashMap;
+import java.util.HashMap;   
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +18,12 @@ import dxi.contracts.DxInteracts;
 import dxi.contracts.EtherToken;
 import dxi.contracts.TokenGNO;
 import dxi.contracts.DxiClaimAuction;
+
 import dxi.server.Utility;
+
+//For testing
+import dxi.contracts.DxiTriggerPostSellOrder;
+import dxi.contracts.EventEmitter;
 
 public class Resources {
     
@@ -32,13 +37,20 @@ public class Resources {
     public static final String WETH_ADDRESS = "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a";
     public static final String GNO_ADDRESS = "0x2C2B9C9a4a25e24B174f26114e8926a9f2128FE4";
     public static final String DXICLAIMAUCTION_ADDRESS = "0x8273e4B8ED6c78e252a9fCa5563Adfcc75C91b2A";
-    
+
+    //For testing
+    public static final String DXITRIGGERPOSTSELLORDER_ADDRESS = "0x98d9f9e8DEbd4A632682ba207670d2a5ACD3c489";
+    public static final String EVENTEMITTER_ADDRESS = "0xF08dF3eFDD854FEDE77Ed3b2E515090EEe765154";
     
     private static Map<TransactionManager, DutchExchange> dx = new HashMap<>();
     private static Map<TransactionManager, DxInteracts> dxi = new HashMap<>();
     private static Map<TransactionManager, TokenGNO> gno = new HashMap<>();
     private static Map<TransactionManager, EtherToken> weth = new HashMap<>();
     private static Map<TransactionManager, DxiClaimAuction> dxiClaimAuction = new HashMap<>();
+
+    //For testing
+    private static Map<TransactionManager, DxiClaimAuction> dxiTriggerPostSellOrder = new HashMap<>();
+    private static Map<TransactionManager, DxiClaimAuction> eventEmitter = new HashMap<>();
 
     public static Web3j getWeb3Provider() {
         if(web3 == null) {
@@ -94,6 +106,21 @@ public class Resources {
             dxiClaimAuction.put(ctm, DxiClaimAuction.load(DXICLAIMAUCTION_ADDRESS, getWeb3Provider(), ctm, gasProvider));
         }
         return dxiClaimAuction.get(ctm);
+    }
+
+    //For testing
+    public static DxiTriggerPostSellOrder getDxiTriggerPostSellOrderInstance(TransactionManager ctm) {
+        if(dxiTriggerPostSellOrder.get(ctm) == null) {
+            dxiTriggerPostSellOrder.put(ctm, DxiTriggerPostSellOrder.load(DXITRIGGERPOSTSELLORDER_ADDRESS, getWeb3Provider(), ctm, gasProvider));
+        }
+        return dxiTriggerPostSellOrder.get(ctm);
+    }
+
+    public static EventEmitter getEventEmitterInstance(TransactionManager ctm) {
+        if(eventEmitter.get(ctm) == null) {
+            eventEmitter.put(ctm, EventEmitter.load(EVENTEMITTER_ADDRESS, getWeb3Provider(), ctm, gasProvider));
+        }
+        return eventEmitter.get(ctm);
     }
 
 }
