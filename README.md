@@ -2,32 +2,21 @@
 
 ## Setup Instructions
 
-#### Setup ganache
+#### Setup DxInteracts
 
-Clone dxInteracts [contracts](https://github.com/Effsy/dx-interacts)
+Clone the DxInteracts [repo](https://github.com/Effsy/dx-interacts)
 
+Follow their [README](https://github.com/Effsy/dx-interacts/blob/master/README.md) to deploy the contracts locally.
 
-Run your local ganache instance
-
-`> ganache-cli -m "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat"`
-
-Compile the contracts
-
-`> npx truffle compile`
-
-Deploy the contracts
-
-`> npx truffle migrate`
 
 #### Setup the server
 
 Clone this repo
 
-
 Build the server
 
-`> gradle build`
+`> ./gradlew build`
 
 Run the server
 
-`> gradle run`
+`> ./gradlew run`
