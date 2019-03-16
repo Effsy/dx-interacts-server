@@ -3,7 +3,9 @@
  */
 package dxi.server;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 import java.io.IOException;
 
 public class AppTest {

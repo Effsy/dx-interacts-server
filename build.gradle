@@ -32,7 +32,7 @@ dependencies {
     implementation 'com.google.guava:guava:26.0-jre'
     implementation 'com.sun.jna:jna:3.0.9'
     // Use JUnit test framework
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.4.0'
 
     compile "org.web3j:core:4.1.1"
             // "ch.qos.logback:logback-core:1.2.3",
