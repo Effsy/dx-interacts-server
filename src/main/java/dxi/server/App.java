@@ -24,9 +24,14 @@ import dxi.server.Utility;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        
+        List<String> accounts = Resources.getAccounts();
+        TransactionManager ctm1 = Resources.getClientManager(accounts.get(0));
 
-
+        DutchExchange dx = Resources.getDxInstance(ctm1);
+        DxInteracts dxi = Resources.getDxiInstance(ctm1);
+        TokenGNO gno = Resources.getGnoInstance(ctm1);
+        EtherToken weth = Resources.getWethInstance(ctm1);
+        DxiClaimAuction dxiClaimAuction = Resources.getDxiClaimAuctionInstance(ctm1);
 
         // // Event verifier test
         // eventEmitter.eventOfInterestEventFlowable(startBlock, endBlock).subscribe(e -> {
