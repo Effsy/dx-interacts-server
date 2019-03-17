@@ -27,6 +27,8 @@ public class PostSellOrderTest {
 
     List<String> accounts;
     TransactionManager ctm1;
+    TransactionManager ctm2;
+
     DutchExchange dx;
     DxInteracts dxi;
     TokenGNO gno;
@@ -37,9 +39,11 @@ public class PostSellOrderTest {
     public void init() throws Exception {
         accounts = Resources.getAccounts();
         ctm1 = Resources.getClientManager(accounts.get(0));
+        ctm2 = Resources.getClientManager(accounts.get(1));
 
         dx = Resources.getDxInstance(ctm1);
-        dxi = Resources.getDxiInstance(ctm1);
+        // note that dxi is initialised with the second default account
+        dxi = Resources.getDxiInstance(ctm2);
         gno = Resources.getGnoInstance(ctm1);
         weth = Resources.getWethInstance(ctm1);
         dxiClaimAuction = Resources.getDxiClaimAuctionInstance(ctm1);
@@ -84,22 +88,23 @@ public class PostSellOrderTest {
         BigInteger preSellerFunds = dx.balances(Resources.GNO_ADDRESS, dxi.getContractAddress()).send();
         // Skip evm time for auction to close
         Utility.evmSkipTime(2200000);
-        dxi.claimSellerFunds(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, dxi.getContractAddress(), auctionIndex).send();
+        dxi.claimSellerFunds(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, auctionIndex).send();
         
         BigInteger postSellerFunds = dx.balances(Resources.GNO_ADDRESS, dxi.getContractAddress()).send();        
         System.out.println("dx balance -> pre: " + preSellerFunds + ", post: " + postSellerFunds);
         
-        BigInteger preGnoFunds = gno.balanceOf(accounts.get(0)).send();
+        BigInteger preGnoFunds = gno.balanceOf(accounts.get(1)).send();
         // BigInteger preGnoFunds = gno.balanceOf(dxi.getContractAddress()).send();
         dxi.withdraw(Resources.GNO_ADDRESS, postSellerFunds).send();
-        BigInteger postGnoFunds = gno.balanceOf(accounts.get(0)).send();
+        BigInteger postGnoFunds = gno.balanceOf(accounts.get(1)).send();
         
         System.out.println("GNO balance of dxi after withdrawal: " + gno.balanceOf(dxi.getContractAddress()).send());
         System.out.println("gno balance of account -> pre: " + preGnoFunds + ", post: " + postGnoFunds + ", diff: " + postGnoFunds.subtract(preGnoFunds));
         // dx.claimBuyerFunds(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, accounts.get(0), auctionIndex).send();
         // dx.withdraw(Resources.GNO_ADDRESS, BigInteger.valueOf(9950L)).send();
 
-        assertEquals(preGnoFunds, 1);
+        assertEquals(preGnoFunds, BigInteger.valueOf(0));
+        assertEquals(postGnoFunds, BigInteger.valueOf(9950));
     }
 
     // @Test
