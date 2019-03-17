@@ -26,11 +26,13 @@ public class App {
     public static void main(String[] args) throws Exception {
         List<String> accounts = Resources.getAccounts();
         TransactionManager ctm1 = Resources.getClientManager(accounts.get(0));
+        TransactionManager ctm2 = Resources.getClientManager(accounts.get(1));
 
         DutchExchange dx = Resources.getDxInstance(ctm1);
-        DxInteracts dxi = Resources.getDxiInstance(ctm1);
+        // note that dxi is initialised with the second default account
+        DxInteracts dxi = Resources.getDxiInstance(ctm2);
         TokenGNO gno = Resources.getGnoInstance(ctm1);
-        EtherToken weth = Resources.getWethInstance(ctm1);
+        EtherToken weth = Resources.getWethInstance(ctm2);
         DxiClaimAuction dxiClaimAuction = Resources.getDxiClaimAuctionInstance(ctm1);
 
         //For testing
@@ -52,8 +54,7 @@ public class App {
         
         // Deposit 20 Ether into the DutchExchange as WETH (dxi converts it for you)
         dxi.depositEther(startingETH).send();
-        
-    
+        // System.out.println("dxi balance -> post: " + dxi.balances(Resources.WETH_ADDRESS, accounts.get(1)).send());
         // Add token pair WETH <-> GNO on DutchExchange
         BigInteger token1Funding = Utility.toWei(10L);
         BigInteger token2Funding = BigInteger.valueOf(0L);
@@ -75,15 +76,14 @@ public class App {
         BigInteger preSellerFunds = dx.balances(Resources.GNO_ADDRESS, dxi.getContractAddress()).send();
         // Skip evm time for auction to close
         Utility.evmSkipTime(2200000);
-        dxi.claimSellerFunds(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, dxi.getContractAddress(), auctionIndex).send();
-        
-        BigInteger postSellerFunds = dx.balances(Resources.GNO_ADDRESS, dxi.getContractAddress()).send();        
+        dxi.claimSellerFunds(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, auctionIndex).send();
+        BigInteger postSellerFunds = dxi.balances(Resources.GNO_ADDRESS, accounts.get(1)).send();        
         System.out.println("dx balance -> pre: " + preSellerFunds + ", post: " + postSellerFunds);
         
-        BigInteger preGnoFunds = gno.balanceOf(accounts.get(0)).send();
+        BigInteger preGnoFunds = gno.balanceOf(accounts.get(1)).send();
         // BigInteger preGnoFunds = gno.balanceOf(dxi.getContractAddress()).send();
         dxi.withdraw(Resources.GNO_ADDRESS, postSellerFunds).send();
-        BigInteger postGnoFunds = gno.balanceOf(accounts.get(0)).send();
+        BigInteger postGnoFunds = gno.balanceOf(accounts.get(1)).send();
         
         System.out.println("GNO balance of dxi after withdrawal: " + gno.balanceOf(dxi.getContractAddress()).send());
         System.out.println("gno balance of account -> pre: " + preGnoFunds + ", post: " + postGnoFunds + ", diff: " + postGnoFunds.subtract(preGnoFunds));
