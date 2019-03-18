@@ -32,10 +32,10 @@ public class Resources {
     private static Map<String, TransactionManager> transactionManager = new HashMap<>();
     
     public static final StaticGasProvider gasProvider = new StaticGasProvider(BigInteger.ZERO, DefaultGasProvider.GAS_LIMIT);
-    public static final String DX_ADDRESS = "0x2a504B5e7eC284ACa5b6f49716611237239F0b97";
-    public static final String DXI_ADDRESS = "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c";
-    public static final String WETH_ADDRESS = "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a";
-    public static final String GNO_ADDRESS = "0x2C2B9C9a4a25e24B174f26114e8926a9f2128FE4";
+    public static final String DX_ADDRESS = "0xD86C8F0327494034F60e25074420BcCF560D5610";
+    public static final String DXI_ADDRESS = "0x2D8BE6BF0baA74e0A907016679CaE9190e80dD0A";
+    public static final String WETH_ADDRESS = "0x9b1f7F645351AF3631a656421eD2e40f2802E6c0";
+    public static final String GNO_ADDRESS = "0x67B5656d60a809915323Bf2C40A8bEF15A152e3e";
     public static final String DXICLAIMAUCTION_ADDRESS = "0x8273e4B8ED6c78e252a9fCa5563Adfcc75C91b2A";
 
     //For testing
