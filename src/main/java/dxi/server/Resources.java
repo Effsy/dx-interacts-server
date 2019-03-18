@@ -39,8 +39,8 @@ public class Resources {
     public static final String DXICLAIMAUCTION_ADDRESS = "0x8273e4B8ED6c78e252a9fCa5563Adfcc75C91b2A";
 
     //For testing
-    public static final String DXITRIGGERPOSTSELLORDER_ADDRESS = "0x98d9f9e8DEbd4A632682ba207670d2a5ACD3c489";
-    public static final String EVENTEMITTER_ADDRESS = "0xF08dF3eFDD854FEDE77Ed3b2E515090EEe765154";
+    public static final String DXITRIGGERPOSTSELLORDER_ADDRESS = "0x9F544a3Fc3D1045e6ec49D4ecEF6dCD700457165";
+    public static final String EVENTEMITTER_ADDRESS = "0xdE5491f774F0Cb009ABcEA7326342E105dbb1B2E";
     
     private static Map<TransactionManager, DutchExchange> dx = new HashMap<>();
     private static Map<TransactionManager, DxInteracts> dxi = new HashMap<>();

@@ -70,8 +70,6 @@ public class TokenGNO extends Contract {
 
     static {
         _addresses = new HashMap<String, String>();
-        _addresses.put("1552544443568", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
-        _addresses.put("1552542794242", "0x75c35C980C0d37ef46DF04d31A140b65503c0eEd");
     }
 
     @Deprecated

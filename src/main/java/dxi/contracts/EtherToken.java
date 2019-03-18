@@ -81,8 +81,6 @@ public class EtherToken extends Contract {
 
     static {
         _addresses = new HashMap<String, String>();
-        _addresses.put("1552544443568", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
-        _addresses.put("1552542794242", "0xf204a4Ef082f5c04bB89F7D5E6568B796096735a");
     }
 
     @Deprecated

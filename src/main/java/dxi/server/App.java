@@ -12,7 +12,6 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.methods.response.EthBlock.Block;
 
-
 import org.web3j.tx.TransactionManager;
 import org.web3j.utils.Numeric;
 import org.web3j.crypto.Hash;
@@ -30,102 +29,26 @@ import dxi.contracts.EventEmitter;
 import dxi.server.Utility;
 
 public class App {
-    public static void main(String[] args) throws Exception {
-        // String txhash = "";
-        // byte[] proof = Utility.getProof("http://localhost:8545", txhash);
-
-        // Web3j web3 = Resources.getWeb3Provider();
-
-        // DefaultBlockParameter startBlock = DefaultBlockParameter.valueOf(new BigInteger("400000"));
-        // Block block = web3.ethGetBlockByNumber(startBlock, true).send().getBlock();
-
- 
+    // public static void main(String[] args) throws Exception {
         
 
-        // System.out.println();
-        // System.out.println("BlockData");
 
-        // System.out.println(block.getParentHash().getBytes(StandardCharsets.UTF_8));
-        // System.out.println(block.getSha3Uncles());
-        // System.out.println(block.getMiner()); 
-        // System.out.println(block.getStateRoot());
-        // System.out.println(block.getTransactionsRoot());
-        // System.out.println(block.getReceiptsRoot());
-        // System.out.println(block.getLogsBloom());
-        // System.out.println(Utility.parseZeroHexRlp(block.getDifficultyRaw()));
-        // System.out.println(Utility.parseZeroHexRlp(block.getNumberRaw()));
-        // System.out.println(Utility.parseZeroHexRlp(block.getGasLimitRaw()));
-        // System.out.println(Utility.parseZeroHexRlp(block.getGasUsedRaw()));
-        // System.out.println(Utility.parseZeroHexRlp(block.getTimestampRaw()));
-        // System.out.println(block.getExtraData());
-        // System.out.println(block.getMixHash());
-        // System.out.println(Numeric.toHexStringWithPrefix(block.getNonce()));
+    //     List<String> accounts = Resources.getAccounts();
+    //     TransactionManager ctm1 = Resources.getClientManager(accounts.get(0));
+    //     TransactionManager ctm2 = Resources.getClientManager(accounts.get(1));
 
-        // System.out.println(Utility.bytesToHex(result));
-        // System.out.println(Utility.bytesToHex(Hash.sha3(result)));
+    //     DxiTriggerPostSellOrder dxiTriggerPostSellOrder = Resources.getDxiTriggerPostSellOrderInstance(ctm1);
+    //     EventEmitter eventEmitter = Resources.getEventEmitterInstance(ctm1);
+    //     DefaultBlockParameter startBlock = DefaultBlockParameter.valueOf("earliest");
+    //     DefaultBlockParameter endBlock = DefaultBlockParameter.valueOf("latest");
 
-        // String blockHash = block.getHash();
-        // System.out.println(blockHash);
-
-        // System.out.println(
-        //     Utility.hexToASCII(hexString)
-        // );
-
-        // for(RlpType curr : result.getValues()) {
-        //     RlpString value = (RlpString) curr;
-        //     System.out.print(Utility.hexToASCII(value.asString()));
-        // }
-
-        // for(String s : Utility.rlpToASCII(rlpList)) {
-        //     System.out.println(s);
-        // }
-
-        
-        //Emit event
-        //Listen for event
-        // Generate blockheader and proof
-        //Submit to dxiPostSellOrder 
-
-        List<String> accounts = Resources.getAccounts();
-        TransactionManager ctm1 = Resources.getClientManager(accounts.get(0));
-        TransactionManager ctm2 = Resources.getClientManager(accounts.get(1));
-
-        DxiTriggerPostSellOrder dxiTriggerPostSellOrder = Resources.getDxiTriggerPostSellOrderInstance(ctm1);
-        EventEmitter eventEmitter = Resources.getEventEmitterInstance(ctm1);
-        DefaultBlockParameter startBlock = DefaultBlockParameter.valueOf("earliest");
-        DefaultBlockParameter endBlock = DefaultBlockParameter.valueOf("latest");
-
-        // Event verifier test
-        eventEmitter.eventOfInterestEventFlowable(startBlock, endBlock).subscribe(e -> {
-            // if its our auction
-            // TODO: check if sell or buy volume
-            
-            byte[] proof = Utility.getProof("http://localhost:8545", e.log.getTransactionHash());            
-            
-            byte[] rlpEncodedBlockHeader = Utility.getRLPEncodedBlockHeader(e.log.getBlockNumber());
-
-            System.out.println("txhash  " + e.log.getTransactionHash());
-
-            System.out.println("Generated the MPT proof for the auction cleared event: " + Utility.bytesToHex(proof));
-            System.out.println("Generated RLP encoded BlockHeader: " + Utility.bytesToHex(rlpEncodedBlockHeader));
-            
-            String address = "0x07a435c7b9df1F331505DdC05165473BEBeAFCdB";
-
-            // Place sell order
-            dxiTriggerPostSellOrder.verifyAndExecute(rlpEncodedBlockHeader, proof).send();
-
-            System.out.println("Post sell order placed, triggered by an event");
-        });
-        
-        // Trigger the event verifier
-        eventEmitter.emitEvent().send();
-        System.out.println("An event was emitted (manually) to simulate an on-chain event");
-
-
-    }
     
 
-    public static void _main(String[] args) throws Exception {
+
+    // }
+    
+
+    public static void main(String[] args) throws Exception {
         List<String> accounts = Resources.getAccounts();
         TransactionManager ctm1 = Resources.getClientManager(accounts.get(0));
         TransactionManager ctm2 = Resources.getClientManager(accounts.get(1));
@@ -135,7 +58,6 @@ public class App {
         DxInteracts dxi = Resources.getDxiInstance(ctm2);
         TokenGNO gno = Resources.getGnoInstance(ctm1);
         EtherToken weth = Resources.getWethInstance(ctm2);
-        DxiClaimAuction dxiClaimAuction = Resources.getDxiClaimAuctionInstance(ctm1);
 
         //For testing
         DxiTriggerPostSellOrder dxiTriggerPostSellOrder = Resources.getDxiTriggerPostSellOrderInstance(ctm1);
@@ -191,6 +113,50 @@ public class App {
         System.out.println("gno balance of account -> pre: " + preGnoFunds + ", post: " + postGnoFunds + ", diff: " + postGnoFunds.subtract(preGnoFunds));
         // dx.claimBuyerFunds(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, accounts.get(0), auctionIndex).send();
         // dx.withdraw(Resources.GNO_ADDRESS, BigInteger.valueOf(9950L)).send();
+
+
+
+
+
+        // ----------Event verifier test ---------
+
+        // Trigger the event verifier
+        eventEmitter.emitEvent().send();
+        System.out.println("An event was emitted (manually) to simulate an on-chain event");
+
+        // Emit event
+        // Listen for event
+        // Generate blockheader and proof
+        // Submit to dxiPostSellOrder 
+        eventEmitter.eventOfInterestEventFlowable(startBlock, endBlock).subscribe(e -> {
+            // if its our auction
+            // TODO: check if sell or buy volume
+            
+            byte[] proof = Utility.getProof("http://localhost:8545", e.log.getTransactionHash());            
+            
+            byte[] rlpEncodedBlockHeader = Utility.getRLPEncodedBlockHeader(e.log.getBlockNumber());
+
+            System.out.println("txhash  " + e.log.getTransactionHash());
+
+            System.out.println("Generated the MPT proof for the auction cleared event: " + Utility.bytesToHex(proof));
+            System.out.println("Generated RLP encoded BlockHeader: " + Utility.bytesToHex(rlpEncodedBlockHeader));
+            
+            String address = "0x07a435c7b9df1F331505DdC05165473BEBeAFCdB";
+
+            // Place sell order
+            //dxiTriggerPostSellOrder.verifyAndExecute(rlpEncodedBlockHeader, proof).send();
+            // Place sell order
+            
+            //dxiTriggerPostSellOrder.verifyAndExecute(rlpEncodedBlockHeader, proof, Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, auctionIndex, sellOrderAmount).send();
+            System.out.println("Post sell order placed, triggered by an event");
+        });
+        
+        
+
+
+
+
+
 
 
 
