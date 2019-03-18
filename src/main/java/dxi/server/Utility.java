@@ -6,17 +6,23 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.tuples.generated.Tuple2;
+import org.web3j.protocol.core.methods.response.EthBlock.Block;
 import org.web3j.protocol.core.Request;
 import org.web3j.protocol.core.Response;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.rlp.RlpList;
 import org.web3j.rlp.RlpString;
+import org.web3j.rlp.RlpType;
+import org.web3j.rlp.RlpDecoder;
+import org.web3j.rlp.RlpEncoder;
+import org.web3j.utils.Numeric;
 
 import dxi.contracts.DutchExchange;
 import dxi.contracts.DxiClaimAuction;
@@ -115,6 +121,43 @@ public class Utility {
     public static BigInteger toWei(Long ethValue) {
         BigInteger weiValue = BigInteger.valueOf(ethValue).multiply(BigInteger.valueOf(10).pow(18));
         return weiValue;
+    }
+
+    public static byte[] getRLPEncodedBlockHeader(BigInteger blockNumber){
+        
+        DefaultBlockParameter blockParameter = DefaultBlockParameter.valueOf(blockNumber);
+        Block block = null;
+        try{
+            block = Resources.getWeb3Provider().ethGetBlockByNumber(blockParameter, true).send().getBlock();
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+        List<String> blockHeader = new ArrayList<>();
+
+        blockHeader.add(block.getParentHash());
+        blockHeader.add(block.getSha3Uncles());
+        blockHeader.add(block.getMiner());
+        blockHeader.add(block.getStateRoot());
+        blockHeader.add(block.getTransactionsRoot());
+        blockHeader.add(block.getReceiptsRoot());
+        blockHeader.add(block.getLogsBloom());
+        blockHeader.add(Utility.parseZeroHexRlp(block.getDifficultyRaw()));
+        blockHeader.add(Utility.parseZeroHexRlp(block.getNumberRaw()));
+        blockHeader.add(Utility.parseZeroHexRlp(block.getGasLimitRaw()));
+        blockHeader.add(Utility.parseZeroHexRlp(block.getGasUsedRaw()));
+        blockHeader.add(Utility.parseZeroHexRlp(block.getTimestampRaw()));
+        blockHeader.add(block.getExtraData());
+        blockHeader.add(block.getMixHash());
+        blockHeader.add(Numeric.toHexStringWithPrefix(block.getNonce()));
+
+        RlpList rlpList = new RlpList(
+            blockHeader.stream().map(curr -> {
+                return RlpString.create(Numeric.hexStringToByteArray(curr));
+            }).collect(Collectors.toList())
+        );
+
+        return RlpEncoder.encode(rlpList);
     }
 
 

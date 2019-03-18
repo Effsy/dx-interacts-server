@@ -11,11 +11,8 @@ import java.nio.charset.StandardCharsets;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.methods.response.EthBlock.Block;
-import org.web3j.rlp.RlpDecoder;
-import org.web3j.rlp.RlpEncoder;
-import org.web3j.rlp.RlpString;
-import org.web3j.rlp.RlpList;
-import org.web3j.rlp.RlpType;
+
+
 import org.web3j.tx.TransactionManager;
 import org.web3j.utils.Numeric;
 import org.web3j.crypto.Hash;
@@ -36,32 +33,14 @@ public class App {
     public static void main(String[] args) throws Exception {
         // String txhash = "";
         // byte[] proof = Utility.getProof("http://localhost:8545", txhash);
-        // RlpString expected = RlpString.create("dog");
+
+        // Web3j web3 = Resources.getWeb3Provider();
+
+        // DefaultBlockParameter startBlock = DefaultBlockParameter.valueOf(new BigInteger("400000"));
+        // Block block = web3.ethGetBlockByNumber(startBlock, true).send().getBlock();
+
+ 
         
-        //byte[] proof = new byte[] { (byte) 0xc8, (byte) 0x83, 'c', 'a', 't', (byte) 0x83, 'd', 'o', 'g' };
-        //RlpList rlpList = (RlpList) RlpDecoder.decode(proof).getValues().get(0);
-
-        Web3j web3 = Resources.getWeb3Provider();
-
-        DefaultBlockParameter startBlock = DefaultBlockParameter.valueOf(new BigInteger("400000"));
-        Block block = web3.ethGetBlockByNumber(startBlock, true).send().getBlock();
-
-        List<String> blockHeader = new ArrayList<>();
-        blockHeader.add(block.getParentHash());
-        blockHeader.add(block.getSha3Uncles());
-        blockHeader.add(block.getMiner());
-        blockHeader.add(block.getStateRoot());
-        blockHeader.add(block.getTransactionsRoot());
-        blockHeader.add(block.getReceiptsRoot());
-        blockHeader.add(block.getLogsBloom());
-        blockHeader.add(Utility.parseZeroHexRlp(block.getDifficultyRaw()));
-        blockHeader.add(Utility.parseZeroHexRlp(block.getNumberRaw()));
-        blockHeader.add(Utility.parseZeroHexRlp(block.getGasLimitRaw()));
-        blockHeader.add(Utility.parseZeroHexRlp(block.getGasUsedRaw()));
-        blockHeader.add(Utility.parseZeroHexRlp(block.getTimestampRaw()));
-        blockHeader.add(block.getExtraData());
-        blockHeader.add(block.getMixHash());
-        blockHeader.add(Numeric.toHexStringWithPrefix(block.getNonce()));
 
         // System.out.println();
         // System.out.println("BlockData");
@@ -82,36 +61,11 @@ public class App {
         // System.out.println(block.getMixHash());
         // System.out.println(Numeric.toHexStringWithPrefix(block.getNonce()));
 
-        RlpList rlpList = new RlpList(
-            blockHeader.stream().map(curr -> {
-                return RlpString.create(Numeric.hexStringToByteArray(curr));
-            }).collect(Collectors.toList())
-        );
+        // System.out.println(Utility.bytesToHex(result));
+        // System.out.println(Utility.bytesToHex(Hash.sha3(result)));
 
-        byte[] result = RlpEncoder.encode(rlpList);
-        
-        System.out.println(Utility.bytesToHex(result));
-        System.out.println(Utility.bytesToHex(Hash.sha3(result)));
-
-        String blockHash = block.getHash();
-        System.out.println(blockHash);
-
-
-        // System.out.println(
-        //     rlpList.getValues().get(0) 
-        //         .equals( 
-        //             (RlpString.create("cat"))
-        //     )
-        // );
-
-        // System.out.println(
-        //     rlpList.getValues().get(1) 
-        //         .equals( 
-        //             (RlpString.create("dog"))
-        //     )
-        // );
-
-        // String hexString = ((RlpString) rlpList.getValues().get(1)).asString();
+        // String blockHash = block.getHash();
+        // System.out.println(blockHash);
 
         // System.out.println(
         //     Utility.hexToASCII(hexString)
@@ -125,6 +79,49 @@ public class App {
         // for(String s : Utility.rlpToASCII(rlpList)) {
         //     System.out.println(s);
         // }
+
+        
+        //Emit event
+        //Listen for event
+        // Generate blockheader and proof
+        //Submit to dxiPostSellOrder 
+
+        List<String> accounts = Resources.getAccounts();
+        TransactionManager ctm1 = Resources.getClientManager(accounts.get(0));
+        TransactionManager ctm2 = Resources.getClientManager(accounts.get(1));
+
+        DxiTriggerPostSellOrder dxiTriggerPostSellOrder = Resources.getDxiTriggerPostSellOrderInstance(ctm1);
+        EventEmitter eventEmitter = Resources.getEventEmitterInstance(ctm1);
+        DefaultBlockParameter startBlock = DefaultBlockParameter.valueOf("earliest");
+        DefaultBlockParameter endBlock = DefaultBlockParameter.valueOf("latest");
+
+        // Event verifier test
+        eventEmitter.eventOfInterestEventFlowable(startBlock, endBlock).subscribe(e -> {
+            // if its our auction
+            // TODO: check if sell or buy volume
+            
+            byte[] proof = Utility.getProof("http://localhost:8545", e.log.getTransactionHash());            
+            
+            byte[] rlpEncodedBlockHeader = Utility.getRLPEncodedBlockHeader(e.log.getBlockNumber());
+
+            System.out.println("txhash  " + e.log.getTransactionHash());
+
+            System.out.println("Generated the MPT proof for the auction cleared event: " + Utility.bytesToHex(proof));
+            System.out.println("Generated RLP encoded BlockHeader: " + Utility.bytesToHex(rlpEncodedBlockHeader));
+            
+            String address = "0x07a435c7b9df1F331505DdC05165473BEBeAFCdB";
+
+            // Place sell order
+            dxiTriggerPostSellOrder.verifyAndExecute(rlpEncodedBlockHeader, proof).send();
+
+            System.out.println("Post sell order placed, triggered by an event");
+        });
+        
+        // Trigger the event verifier
+        eventEmitter.emitEvent().send();
+        System.out.println("An event was emitted (manually) to simulate an on-chain event");
+
+
     }
     
 
