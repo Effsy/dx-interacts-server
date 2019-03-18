@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
@@ -14,7 +15,8 @@ import org.web3j.tuples.generated.Tuple2;
 import org.web3j.protocol.core.Request;
 import org.web3j.protocol.core.Response;
 import org.web3j.protocol.http.HttpService;
-
+import org.web3j.rlp.RlpList;
+import org.web3j.rlp.RlpString;
 
 import dxi.contracts.DutchExchange;
 import dxi.contracts.DxiClaimAuction;
@@ -139,6 +141,42 @@ public class Utility {
             hexChars[j * 2 + 3] = hexArray[v & 0x0F]; //j * 2 + 1 + 2 for 0x
         }
         return new String(hexChars);
+    }
+
+    public static List<String> rlpToASCII(RlpList rlpList) {
+        List<String> result = rlpList.getValues().stream().map(temp -> {
+            RlpString curr = (RlpString) temp;
+            return hexToASCII(curr.asString());
+        }).collect(Collectors.toList());
+        
+        return result;
+    }
+
+    public static String parseZeroHexRlp(String curr) {
+        if(curr.equals("0x0")) {
+            return "0x";
+        }
+        else {
+            return curr;
+        }
+    }
+
+    /**
+     * @author adapted from Lokesh Gupta's implementation
+     */
+    public static String hexToASCII(String hexValue) {
+        // if starts with 0x -> drop it off
+        if(hexValue.substring(0, 2).equals("0x")) {
+            hexValue = hexValue.substring(2);
+        }
+
+        StringBuilder output = new StringBuilder("");
+        for (int i = 0; i < hexValue.length(); i += 2)
+        {
+            String str = hexValue.substring(i, i + 2);
+            output.append((char) Integer.parseInt(str, 16));
+        }
+        return output.toString();
     }
 
     // Java Native Access Library to used the ion shared object library

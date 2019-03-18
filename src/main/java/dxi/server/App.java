@@ -2,13 +2,16 @@ package dxi.server;
 
 import java.math.BigInteger;
 import java.util.List;
-import java.util.Arrays;
-
+import java.util.stream.Collectors;
+import java.util.ArrayList;
+import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
+import org.web3j.protocol.core.methods.response.EthBlock.Block;
+import org.web3j.rlp.RlpDecoder;
+import org.web3j.rlp.RlpEncoder;
+import org.web3j.rlp.RlpString;
+import org.web3j.rlp.RlpList;
 import org.web3j.tx.TransactionManager;
-
-import org.web3j.utils.Numeric;
-import org.web3j.rlp.*;
 
 import dxi.contracts.DutchExchange;
 import dxi.contracts.DxInteracts;
@@ -24,6 +27,80 @@ import dxi.server.Utility;
 
 public class App {
     public static void main(String[] args) throws Exception {
+        // String txhash = "";
+        // byte[] proof = Utility.getProof("http://localhost:8545", txhash);
+        // RlpString expected = RlpString.create("dog");
+        byte[] proof = new byte[] { (byte) 0xc8, (byte) 0x83, 'c', 'a', 't', (byte) 0x83, 'd', 'o', 'g' };
+        RlpList rlpList = (RlpList) RlpDecoder.decode(proof).getValues().get(0);
+
+        Web3j web3 = Resources.getWeb3Provider();
+
+        DefaultBlockParameter startBlock = DefaultBlockParameter.valueOf("earliest");
+        Block block = web3.ethGetBlockByNumber(startBlock, true).send().getBlock();
+
+        ArrayList<String> blockHeader = new ArrayList<>();
+        blockHeader.add(block.getParentHash());
+        blockHeader.add(block.getSha3Uncles());
+        blockHeader.add(block.getMiner());
+        blockHeader.add(block.getStateRoot());
+        blockHeader.add(block.getTransactionsRoot());
+        blockHeader.add(block.getReceiptsRoot());
+        blockHeader.add(block.getLogsBloom());
+        blockHeader.add(Utility.parseZeroHexRlp(block.getDifficultyRaw()));
+        blockHeader.add(Utility.parseZeroHexRlp(block.getNumberRaw()));
+        blockHeader.add(Utility.parseZeroHexRlp(block.getGasLimitRaw()));
+        blockHeader.add(Utility.parseZeroHexRlp(block.getGasUsedRaw()));
+        blockHeader.add(Utility.parseZeroHexRlp(block.getTimestampRaw()));
+        blockHeader.add(block.getExtraData());
+        
+        RlpList list = new RlpList(
+            blockHeader.stream().map(curr -> {
+                return RlpString.create(curr);
+            }).collect(Collectors.toList())
+        );
+        
+        byte[] result = RlpEncoder.encode(list);
+    
+        System.out.println(web3.web3Sha3(Utility.bytesToHex(result)).send().getResult());
+
+        String blockHash = block.getHash();
+        System.out.println(blockHash);
+
+        // System.out.println(block.);
+        // System.out.println(web3.ethGetBlockByHash(blockHash, true).send());
+
+        // System.out.println(
+        //     rlpList.getValues().get(0) 
+        //         .equals( 
+        //             (RlpString.create("cat"))
+        //     )
+        // );
+
+        // System.out.println(
+        //     rlpList.getValues().get(1) 
+        //         .equals( 
+        //             (RlpString.create("dog"))
+        //     )
+        // );
+
+        // String hexString = ((RlpString) rlpList.getValues().get(1)).asString();
+
+        // System.out.println(
+        //     Utility.hexToASCII(hexString)
+        // );
+
+        // for(RlpType curr : rlpList.getValues()) {
+        //     RlpString value = (RlpString) curr;
+        //     System.out.println(Utility.hexToASCII(value.asString()));
+        // }
+
+        // for(String s : Utility.rlpToASCII(rlpList)) {
+        //     System.out.println(s);
+        // }
+    }
+    
+
+    public static void _main(String[] args) throws Exception {
         List<String> accounts = Resources.getAccounts();
         TransactionManager ctm1 = Resources.getClientManager(accounts.get(0));
         TransactionManager ctm2 = Resources.getClientManager(accounts.get(1));
