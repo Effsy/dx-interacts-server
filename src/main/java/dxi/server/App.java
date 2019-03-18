@@ -4,6 +4,10 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import java.nio.charset.StandardCharsets;
+
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.methods.response.EthBlock.Block;
@@ -11,7 +15,10 @@ import org.web3j.rlp.RlpDecoder;
 import org.web3j.rlp.RlpEncoder;
 import org.web3j.rlp.RlpString;
 import org.web3j.rlp.RlpList;
+import org.web3j.rlp.RlpType;
 import org.web3j.tx.TransactionManager;
+import org.web3j.utils.Numeric;
+import org.web3j.crypto.Hash;
 
 import dxi.contracts.DutchExchange;
 import dxi.contracts.DxInteracts;
@@ -30,15 +37,16 @@ public class App {
         // String txhash = "";
         // byte[] proof = Utility.getProof("http://localhost:8545", txhash);
         // RlpString expected = RlpString.create("dog");
-        byte[] proof = new byte[] { (byte) 0xc8, (byte) 0x83, 'c', 'a', 't', (byte) 0x83, 'd', 'o', 'g' };
-        RlpList rlpList = (RlpList) RlpDecoder.decode(proof).getValues().get(0);
+        
+        //byte[] proof = new byte[] { (byte) 0xc8, (byte) 0x83, 'c', 'a', 't', (byte) 0x83, 'd', 'o', 'g' };
+        //RlpList rlpList = (RlpList) RlpDecoder.decode(proof).getValues().get(0);
 
         Web3j web3 = Resources.getWeb3Provider();
 
-        DefaultBlockParameter startBlock = DefaultBlockParameter.valueOf("earliest");
+        DefaultBlockParameter startBlock = DefaultBlockParameter.valueOf(new BigInteger("400000"));
         Block block = web3.ethGetBlockByNumber(startBlock, true).send().getBlock();
 
-        ArrayList<String> blockHeader = new ArrayList<>();
+        List<String> blockHeader = new ArrayList<>();
         blockHeader.add(block.getParentHash());
         blockHeader.add(block.getSha3Uncles());
         blockHeader.add(block.getMiner());
@@ -52,22 +60,42 @@ public class App {
         blockHeader.add(Utility.parseZeroHexRlp(block.getGasUsedRaw()));
         blockHeader.add(Utility.parseZeroHexRlp(block.getTimestampRaw()));
         blockHeader.add(block.getExtraData());
-        
-        RlpList list = new RlpList(
+        blockHeader.add(block.getMixHash());
+        blockHeader.add(Numeric.toHexStringWithPrefix(block.getNonce()));
+
+        // System.out.println();
+        // System.out.println("BlockData");
+
+        // System.out.println(block.getParentHash().getBytes(StandardCharsets.UTF_8));
+        // System.out.println(block.getSha3Uncles());
+        // System.out.println(block.getMiner()); 
+        // System.out.println(block.getStateRoot());
+        // System.out.println(block.getTransactionsRoot());
+        // System.out.println(block.getReceiptsRoot());
+        // System.out.println(block.getLogsBloom());
+        // System.out.println(Utility.parseZeroHexRlp(block.getDifficultyRaw()));
+        // System.out.println(Utility.parseZeroHexRlp(block.getNumberRaw()));
+        // System.out.println(Utility.parseZeroHexRlp(block.getGasLimitRaw()));
+        // System.out.println(Utility.parseZeroHexRlp(block.getGasUsedRaw()));
+        // System.out.println(Utility.parseZeroHexRlp(block.getTimestampRaw()));
+        // System.out.println(block.getExtraData());
+        // System.out.println(block.getMixHash());
+        // System.out.println(Numeric.toHexStringWithPrefix(block.getNonce()));
+
+        RlpList rlpList = new RlpList(
             blockHeader.stream().map(curr -> {
-                return RlpString.create(curr);
+                return RlpString.create(Numeric.hexStringToByteArray(curr));
             }).collect(Collectors.toList())
         );
+
+        byte[] result = RlpEncoder.encode(rlpList);
         
-        byte[] result = RlpEncoder.encode(list);
-    
-        System.out.println(web3.web3Sha3(Utility.bytesToHex(result)).send().getResult());
+        System.out.println(Utility.bytesToHex(result));
+        System.out.println(Utility.bytesToHex(Hash.sha3(result)));
 
         String blockHash = block.getHash();
         System.out.println(blockHash);
 
-        // System.out.println(block.);
-        // System.out.println(web3.ethGetBlockByHash(blockHash, true).send());
 
         // System.out.println(
         //     rlpList.getValues().get(0) 
@@ -89,9 +117,9 @@ public class App {
         //     Utility.hexToASCII(hexString)
         // );
 
-        // for(RlpType curr : rlpList.getValues()) {
+        // for(RlpType curr : result.getValues()) {
         //     RlpString value = (RlpString) curr;
-        //     System.out.println(Utility.hexToASCII(value.asString()));
+        //     System.out.print(Utility.hexToASCII(value.asString()));
         // }
 
         // for(String s : Utility.rlpToASCII(rlpList)) {
