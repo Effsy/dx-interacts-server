@@ -116,15 +116,15 @@ public class Utility {
     }
 
 
-    public static byte[] getProof(String clientUrl, String txHash){
-        ByteByReference proofRef = LibIon.INSTANCE.getIonProof(clientUrl, clientUrl.length(), txHash, txHash.length());
-        Pointer p = proofRef.getPointer();
+    // public static byte[] getProof(String clientUrl, String txHash){
+    //     ByteByReference proofRef = LibIon.INSTANCE.getIonProof(clientUrl, clientUrl.length(), txHash, txHash.length());
+    //     Pointer p = proofRef.getPointer();
 
-        int proofLength = LibIon.INSTANCE.getIonProofLength(clientUrl, clientUrl.length(), txHash, txHash.length());
+    //     int proofLength = LibIon.INSTANCE.getIonProofLength(clientUrl, clientUrl.length(), txHash, txHash.length());
 
-        byte[] arr = p.getByteArray(0, proofLength);
-        return arr;
-    }
+    //     byte[] arr = p.getByteArray(0, proofLength);
+    //     return arr;
+    // }
 
     private final static char[] hexArray = "0123456789abcdef".toCharArray();
 
@@ -141,14 +141,14 @@ public class Utility {
         return new String(hexChars);
     }
 
-    // Java Native Access Library to used the ion shared object library
-    public interface LibIon extends Library {
+    // // Java Native Access Library to used the ion shared object library
+    // public interface LibIon extends Library {
 
-        public static LibIon INSTANCE = (LibIon)Native.loadLibrary("ion", LibIon.class);
+    //     public static LibIon INSTANCE = (LibIon)Native.loadLibrary("ion", LibIon.class);
 
-        public ByteByReference getIonProof(String url, int urlLength, String txHash, int txHashLength);
+    //     public ByteByReference getIonProof(String url, int urlLength, String txHash, int txHashLength);
 
-        public int getIonProofLength(String url, int urlLength, String txHash, int txHashLength);
+    //     public int getIonProofLength(String url, int urlLength, String txHash, int txHashLength);
 
-    }
+    // }
 }
