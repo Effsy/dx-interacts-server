@@ -77,6 +77,7 @@ public class DxInteracts extends Contract {
 
     static {
         _addresses = new HashMap<String, String>();
+<<<<<<< HEAD
         _addresses.put("1552811139389", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
         _addresses.put("1552812295727", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
         _addresses.put("1552813091280", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
@@ -103,6 +104,27 @@ public class DxInteracts extends Contract {
         _addresses.put("1552812045585", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
         _addresses.put("1552812364465", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
         _addresses.put("1552812663632", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+=======
+        _addresses.put("1552814774039", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552811139389", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552812295727", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552812818415", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552813091280", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552814441272", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552814149250", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552812478568", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552813023381", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552810518256", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552812045585", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552812758659", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552811672104", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552814294046", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552810808550", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552812364465", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552812663632", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+        _addresses.put("1552813502130", "0xdE5491f774F0Cb009ABcEA7326342E105dbb1B2E");
+        _addresses.put("1552815537743", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
+>>>>>>> dev
         _addresses.put("1552811439152", "0x4e71920b7330515faf5EA0c690f1aD06a85fB60c");
     }
 
@@ -274,13 +296,21 @@ public class DxInteracts extends Contract {
         return executeRemoteCallTransaction(function);
     }
 
+<<<<<<< HEAD
     public RemoteCall<TransactionReceipt> postSellOrder(String sellToken, String buyToken, BigInteger auctionIndex, BigInteger amount) {
+=======
+    public RemoteCall<TransactionReceipt> claimSellerFunds(String sellToken, String buyToken, BigInteger auctionIndex) {
+>>>>>>> dev
         final Function function = new Function(
                 FUNC_POSTSELLORDER, 
                 Arrays.<Type>asList(new org.web3j.abi.datatypes.Address(sellToken), 
                 new org.web3j.abi.datatypes.Address(buyToken), 
+<<<<<<< HEAD
                 new org.web3j.abi.datatypes.generated.Uint256(auctionIndex), 
                 new org.web3j.abi.datatypes.generated.Uint256(amount)), 
+=======
+                new org.web3j.abi.datatypes.generated.Uint256(auctionIndex)), 
+>>>>>>> dev
                 Collections.<TypeReference<?>>emptyList());
         return executeRemoteCallTransaction(function);
     }
