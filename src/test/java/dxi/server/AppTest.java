@@ -3,29 +3,11 @@
  */
 package dxi.server;
 
-import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import org.junit.Ignore;
-// import org.junit.Test;
-// import org.junit.Ignore;
 
 public class AppTest {
     @Test
-    public void testOne() {
-        System.out.println("here");
-        assertEquals(1, 1);
-    }
-
-    @Test
-    public void testtwo() {
-        System.out.println("here2");
-        assertEquals(1,1);
-    }
-    
-    @Ignore
-    @Test
-    public void testthree() {
-        System.out.println("here2");
-        assertEquals(1,1);
+    public void appCanBeInstantiated() {
+        App app = new App();
     }
 }
