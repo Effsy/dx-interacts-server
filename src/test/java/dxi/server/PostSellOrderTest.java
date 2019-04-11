@@ -21,7 +21,6 @@ import dxi.contracts.DutchExchange;
 import dxi.contracts.DxInteracts;
 import dxi.contracts.EtherToken;
 import dxi.contracts.TokenGNO;
-import dxi.contracts.DxiClaimAuction;
 
 public class PostSellOrderTest {
 
@@ -46,7 +45,6 @@ public class PostSellOrderTest {
         dxi = Resources.getDxiInstance(ctm2);
         gno = Resources.getGnoInstance(ctm1);
         weth = Resources.getWethInstance(ctm1);
-        dxiClaimAuction = Resources.getDxiClaimAuctionInstance(ctm1);
     }
 
     @Test
@@ -106,10 +104,4 @@ public class PostSellOrderTest {
         assertEquals(preGnoFunds, BigInteger.valueOf(0));
         assertEquals(postGnoFunds, BigInteger.valueOf(9950));
     }
-
-    // @Test
-    // public void ...(){
-    //     DxiTriggerPostSellOrder dxiTriggerPostSellOrder = Resources.getDxiTriggerPostSellOrderInstance(ctm1);
-    //     EventEmitter eventEmitter = Resources.getEventEmitterInstance(ctm1);
-    // }
 }
