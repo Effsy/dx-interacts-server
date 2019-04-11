@@ -3,10 +3,11 @@
  */
 package dxi.server;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.Test;
+import org.junit.Before;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 
 import java.math.BigInteger;
@@ -32,9 +33,8 @@ public class PostSellOrderTest {
     DxInteracts dxi;
     TokenGNO gno;
     EtherToken weth;
-    DxiClaimAuction dxiClaimAuction;
 
-    @BeforeEach
+    @Before
     public void init() throws Exception {
         accounts = Resources.getAccounts();
         ctm1 = Resources.getClientManager(accounts.get(0));
@@ -98,8 +98,6 @@ public class PostSellOrderTest {
         
         System.out.println("GNO balance of dxi after withdrawal: " + gno.balanceOf(dxi.getContractAddress()).send());
         System.out.println("gno balance of account -> pre: " + preGnoFunds + ", post: " + postGnoFunds + ", diff: " + postGnoFunds.subtract(preGnoFunds));
-        // dx.claimBuyerFunds(Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, accounts.get(0), auctionIndex).send();
-        // dx.withdraw(Resources.GNO_ADDRESS, BigInteger.valueOf(9950L)).send();
 
         assertEquals(preGnoFunds, BigInteger.valueOf(0));
         assertEquals(postGnoFunds, BigInteger.valueOf(9950));

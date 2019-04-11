@@ -46,7 +46,7 @@ public class Resources {
     
     public static List<String> getAccounts() throws IOException {
         if(accounts == null) {
-            accounts = Utility.getAccounts(getWeb3Provider());
+            accounts = getWeb3Provider().ethAccounts().send().getAccounts();
         }
         return accounts;
     }

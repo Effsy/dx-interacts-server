@@ -19,10 +19,6 @@ import dxi.contracts.DutchExchange;
 import dxi.server.Resources;
 
 public class Utility {
-
-    public static List<String> getAccounts(Web3j web3) throws IOException {
-        return web3.ethAccounts().send().getAccounts();
-    }
     
     public static void activateLogs( DefaultBlockParameter startBlock, DefaultBlockParameter endBlock, DutchExchange dx) {
         Map<String, String> contractName = new HashMap<String, String>() {{
