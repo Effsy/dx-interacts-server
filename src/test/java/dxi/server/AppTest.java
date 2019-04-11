@@ -4,10 +4,11 @@
 package dxi.server;
 
 import org.junit.Test;
+import java.io.IOException;
 
 public class AppTest {
     @Test
-    public void appCanBeInstantiated() {
-        App app = new App();
+    public void web3jHasSameAccountsAsGanache() throws IOException {
+        App classUnderTest = new App();
     }
 }

@@ -1,25 +1,34 @@
 package dxi.server;
 
+import java.math.BigInteger;
 import java.util.List;
+import java.util.Arrays;
 
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.tx.TransactionManager;
 
+import org.web3j.utils.Numeric;
+import org.web3j.rlp.*;
+
 import dxi.contracts.DutchExchange;
 import dxi.contracts.DxInteracts;
-import dxi.server.Resources;
+import dxi.contracts.EtherToken;
+import dxi.contracts.TokenGNO;
+import dxi.contracts.DxiClaimAuction;
+
+//For testing
+import dxi.contracts.DxiTriggerPostSellOrder;
+import dxi.contracts.EventEmitter;
+
+import dxi.server.Utility;
 
 public class App {
     public static void main(String[] args) throws Exception {
         List<String> accounts = Resources.getAccounts();
-        // This is the wallet that will be managing dx and dxi
         TransactionManager ctm1 = Resources.getClientManager(accounts.get(0));
         TransactionManager ctm2 = Resources.getClientManager(accounts.get(1));
 
         DutchExchange dx = Resources.getDxInstance(ctm1);
-<<<<<<< HEAD
-        DxInteracts dxi = Resources.getDxiInstance(ctm1);
-=======
         // note that dxi is initialised with the second default account
         DxInteracts dxi = Resources.getDxiInstance(ctm2);
         TokenGNO gno = Resources.getGnoInstance(ctm1);
@@ -29,13 +38,9 @@ public class App {
         //For testing
         DxiTriggerPostSellOrder dxiTriggerPostSellOrder = Resources.getDxiTriggerPostSellOrderInstance(ctm1);
         EventEmitter eventEmitter = Resources.getEventEmitterInstance(ctm1);
->>>>>>> dev
 
-        // For live version, consider setting start="latest" and end="pending"
         DefaultBlockParameter startBlock = DefaultBlockParameter.valueOf("earliest");
         DefaultBlockParameter endBlock = DefaultBlockParameter.valueOf("latest");
-<<<<<<< HEAD
-=======
         Utility.activateLogs(startBlock, endBlock, dx);
 
         // 20 ether
@@ -86,18 +91,55 @@ public class App {
         // dx.withdraw(Resources.GNO_ADDRESS, BigInteger.valueOf(9950L)).send();
 
 
->>>>>>> dev
+
+        // // Event verifier test
+        // eventEmitter.eventOfInterestEventFlowable(startBlock, endBlock).subscribe(e -> {
+        //     // if its our auction
+        //     // TODO: check if sell or buy volume
+            
+        //     byte[] proof = Utility.getProof("http://localhost:8545", e.log.getTransactionHash());            
+        //     String proofString = Utility.bytesToHex(proof);
+
+        //     System.out.println("Generated the MPT proof for the auction cleared event: " + proofString);
+            
+        //     List<RlpType> rlpValues = RlpDecoder.decode(proof).getValues();     
+
+        //     // Place sell order
+        //     dxiTriggerPostSellOrder.verifyAndExecute(Numeric.hexStringToByteArray(e.log.getBlockHash()), proof, Resources.WETH_ADDRESS, Resources.GNO_ADDRESS, auctionIndex + 1, sellOrderAmount).send();
+
+        //     System.out.println("Post sell order placed, triggered by an event");
+        // });
+        //
+        // // Trigger the event verifier
+        // eventEmitter.emitEvent().send();
+        // System.out.println("An event was emitted (manually) to simulate an on-chain event");
 
 
-        System.out.println("hello world");
+        // // Test auction clearing event submission test
+        // dx.auctionClearedEventFlowable(startBlock, endBlock).subscribe(e -> {
+            
+        //     byte[] proof = Utility.getProof("http://localhost:8545", e.log.getTransactionHash());            
+        //     String proofString = Utility.bytesToHex(proof);
 
-        dx.auctionClearedEventFlowable(startBlock, endBlock).subscribe(e -> {
-            System.out.println("auction cleared");
-        });
+        //     System.out.println("Generated the MPT proof for the auction cleared event: " + proofString);
+            
+        //     System.out.println(e.sellToken);
+        //     System.out.println(e.buyToken);
+        //     System.out.println(dxi.getContractAddress());
+        //     System.out.println(e.auctionIndex);
+        //     System.out.println(e.sellVolume);
+        //     System.out.println(e.log.getBlockHash());
+        //     System.out.println(Numeric.hexStringToByteArray(e.log.getBlockHash()));
+        //     System.out.println(e.log.getTransactionHash());
+            
+        //     List<RlpType> rlpValues = RlpDecoder.decode(proof).getValues();
+        //     System.out.println(rlpValues.get(0));
 
-        dx.newDepositEventFlowable(startBlock, endBlock).subscribe(e -> {
-            String result = "still running";
-            System.out.println(System.lineSeparator() + result);
-        });
+        //     dxiClaimAuction.verifyAndExecute(Numeric.hexStringToByteArray(e.log.getBlockHash()), proof, e.sellToken, e.buyToken, dxi.getContractAddress(), e.auctionIndex, e.sellVolume).send();
+
+        //     System.out.println("auction cleared");
+        // });
     }
+
+    
 }
