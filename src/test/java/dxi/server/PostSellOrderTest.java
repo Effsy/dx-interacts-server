@@ -24,7 +24,7 @@ import dxi.contracts.EtherToken;
 import dxi.contracts.TokenGNO;
 
 public class PostSellOrderTest {
-
+    App server;
     List<String> accounts;
     TransactionManager ctm1;
     TransactionManager ctm2;
@@ -36,6 +36,7 @@ public class PostSellOrderTest {
 
     @Before
     public void init() throws Exception {
+        server = new App();
         accounts = Resources.getAccounts();
         ctm1 = Resources.getClientManager(accounts.get(0));
         ctm2 = Resources.getClientManager(accounts.get(1));
