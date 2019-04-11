@@ -15,22 +15,10 @@ import org.web3j.protocol.core.Request;
 import org.web3j.protocol.core.Response;
 import org.web3j.protocol.http.HttpService;
 
-
 import dxi.contracts.DutchExchange;
-import dxi.contracts.DxiClaimAuction;
-
 import dxi.server.Resources;
 
-import com.sun.jna.Library;
-import com.sun.jna.Native;
-import com.sun.jna.Pointer;
-import com.sun.jna.ptr.ByteByReference;
-
 public class Utility {
-
-    public static List<String> getAccounts(Web3j web3) throws IOException {
-        return web3.ethAccounts().send().getAccounts();
-    }
     
     public static void activateLogs( DefaultBlockParameter startBlock, DefaultBlockParameter endBlock, DutchExchange dx) {
         Map<String, String> contractName = new HashMap<String, String>() {{
@@ -113,42 +101,5 @@ public class Utility {
     public static BigInteger toWei(Long ethValue) {
         BigInteger weiValue = BigInteger.valueOf(ethValue).multiply(BigInteger.valueOf(10).pow(18));
         return weiValue;
-    }
-
-
-    public static byte[] getProof(String clientUrl, String txHash){
-        ByteByReference proofRef = LibIon.INSTANCE.getIonProof(clientUrl, clientUrl.length(), txHash, txHash.length());
-        Pointer p = proofRef.getPointer();
-
-        int proofLength = LibIon.INSTANCE.getIonProofLength(clientUrl, clientUrl.length(), txHash, txHash.length());
-
-        byte[] arr = p.getByteArray(0, proofLength);
-        return arr;
-    }
-
-    private final static char[] hexArray = "0123456789abcdef".toCharArray();
-
-    public static String bytesToHex(byte[] bytes) {
-        char[] hexChars = new char[bytes.length * 2 + 2];
-        hexChars[0] = '0';
-        hexChars[1] = 'x';
-
-        for (int j = 0; j < bytes.length; j++ ) {
-            int v = bytes[j] & 0xFF;
-            hexChars[j * 2 + 2] = hexArray[v >>> 4]; //j * 2 + 2 for 0x
-            hexChars[j * 2 + 3] = hexArray[v & 0x0F]; //j * 2 + 1 + 2 for 0x
-        }
-        return new String(hexChars);
-    }
-
-    // Java Native Access Library to used the ion shared object library
-    public interface LibIon extends Library {
-
-        public static LibIon INSTANCE = (LibIon)Native.loadLibrary("ion", LibIon.class);
-
-        public ByteByReference getIonProof(String url, int urlLength, String txHash, int txHashLength);
-
-        public int getIonProofLength(String url, int urlLength, String txHash, int txHashLength);
-
     }
 }
